@@ -1,0 +1,16 @@
+{
+  "@@last_modified": "2020-06-18T12:14:39.890863",
+  "@@locale": "id",
+  "hello": "Halo, Dunia",
+  "@hello": {
+    "description": "Hello world text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "title": "Sparring Owner",
+  "@title": {
+    "description": "Title application",
+    "type": "text",
+    "placeholders": {}
+  }
+}
