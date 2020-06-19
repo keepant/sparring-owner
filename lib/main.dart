@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sparring_owner/i18n.dart';
-import 'package:sparring_owner/pages/root.dart';
+import 'package:sparring_owner/services/auth_check.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'nunito',
       ),
-      home: Root(),
+      home: AuthCheck(),
     );
   }
 }

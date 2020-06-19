@@ -1,6 +1,11 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sparring_owner/components/text_style.dart';
+import 'package:sparring_owner/services/auth.dart';
+import 'package:sparring_owner/services/auth_check.dart';
+import 'package:sparring_owner/services/prefs.dart';
 
 class More extends StatefulWidget {
   @override
@@ -75,22 +80,29 @@ class _MoreState extends State<More> {
               text: "About Us ",
             ),
             _profileItem(
-                icon: FontAwesomeIcons.signOutAlt,
-                text: "Logout",
-                onTap: () async {}
-                //   final auth = new Auth();
-                //   await auth.signOut();
+              icon: FontAwesomeIcons.signOutAlt,
+              text: "Logout",
+              onTap: () async {
+                final auth = new Auth();
+                await auth.signOut();
 
-                //   await prefs.clearToken();
+                await prefs.clearToken();
+                
+                pushNewScreen(
+                  context,
+                  screen: AuthCheck(),
+                  platformSpecific: false,
+                  withNavBar: false,
+                );
 
-                //   Flushbar(
-                //     message: "Logout successfully!",
-                //     margin: EdgeInsets.all(8),
-                //     borderRadius: 8,
-                //     duration: Duration(seconds: 4),
-                //   )..show(context);
-                // },
-                ),
+                Flushbar(
+                  message: "Logout successfully!",
+                  margin: EdgeInsets.all(8),
+                  borderRadius: 8,
+                  duration: Duration(seconds: 4),
+                )..show(context);
+              },
+            ),
           ],
         ),
       ),

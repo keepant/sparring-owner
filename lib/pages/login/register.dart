@@ -58,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            Positioned(top: 35, left: 0, child: _backButton()),
+            Positioned(top: 40, left: 0, child: _backButton()),
           ],
         ),
       ),

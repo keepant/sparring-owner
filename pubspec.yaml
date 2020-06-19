@@ -32,6 +32,13 @@ dependencies:
   hexcolor: ^1.0.2
   persistent_bottom_nav_bar: ^1.5.5
   font_awesome_flutter: ^8.8.1
+  flushbar: ^1.10.4
+  flutter_spinkit: ^4.1.2+1
+  firebase_auth: ^0.11.1+11
+  graphql_flutter: ^3.0.1
+  cloud_functions: ^0.4.2+3
+  shared_preferences: ^0.5.3+1
+  google_sign_in: ^4.5.1
 
 dev_dependencies:
   flutter_test:
