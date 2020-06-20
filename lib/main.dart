@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         const Locale('id', 'ID'), // Bahasa
       ],
       theme: ThemeData(
-        primaryColor: Colors.red[700],
+        primaryColor: Colors.deepOrange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'nunito',
       ),

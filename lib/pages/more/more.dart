@@ -1,8 +1,9 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:sparring_owner/components/text_style.dart';
+import 'package:sparring_owner/pages/more/profile.dart';
 import 'package:sparring_owner/services/auth.dart';
 import 'package:sparring_owner/services/auth_check.dart';
 import 'package:sparring_owner/services/prefs.dart';
@@ -16,7 +17,20 @@ class _MoreState extends State<More> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Profile")),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          "Account",
+          style: TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+            fontSize: 21.0,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -42,7 +56,7 @@ class _MoreState extends State<More> {
                           children: <Widget>[
                             Icon(
                               Icons.location_on,
-                              color: Colors.grey,
+                              color: Theme.of(context).primaryColor,
                               size: 15.0,
                             ),
                             NormalText(
@@ -62,7 +76,7 @@ class _MoreState extends State<More> {
               height: 8.0,
             ),
             Divider(
-              thickness: 2,
+              thickness: 1,
             ),
             SizedBox(
               height: 5.0,
@@ -70,14 +84,32 @@ class _MoreState extends State<More> {
             _profileItem(
               icon: FontAwesomeIcons.userAlt,
               text: "My Informations",
+              onTap: () {
+                print('my info');
+                pushNewScreen(
+                  context,
+                  screen: Profile(),
+                  platformSpecific: true,
+                  withNavBar: false,
+                );
+              },
+            ),
+            SizedBox(
+              height: 5.0,
             ),
             _profileItem(
               icon: FontAwesomeIcons.futbol,
               text: "My Court",
             ),
+            SizedBox(
+              height: 5.0,
+            ),
             _profileItem(
               icon: FontAwesomeIcons.infoCircle,
               text: "About Us ",
+            ),
+            SizedBox(
+              height: 5.0,
             ),
             _profileItem(
               icon: FontAwesomeIcons.signOutAlt,
@@ -87,7 +119,7 @@ class _MoreState extends State<More> {
                 await auth.signOut();
 
                 await prefs.clearToken();
-                
+
                 pushNewScreen(
                   context,
                   screen: AuthCheck(),
@@ -114,12 +146,12 @@ Widget _profileItem({IconData icon, String text, GestureTapCallback onTap}) {
   return InkWell(
     onTap: onTap,
     child: Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 6, top: 6),
+      padding: const EdgeInsets.only(left: 20, right: 16, bottom: 6, top: 6),
       child: Row(
         children: <Widget>[
           Icon(
             icon,
-            color: Colors.black54,
+            color: Color(0xffff8964),
             size: 30,
           ),
           SizedBox(

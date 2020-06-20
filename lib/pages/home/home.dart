@@ -67,16 +67,6 @@ class _HomeState extends State<Home> {
                       color: Colors.transparent,
                       child: InkWell(
                         child: CardContainer(),
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (_) {
-                          //       return MyCards(title: "My Cards");
-                          //     },
-                          //   ),
-                          // );
-                        },
                       ),
                     ),
                   ),
@@ -105,12 +95,6 @@ class _HomeState extends State<Home> {
                     buttonTitle: "Upcoming Booking",
                     onTap: () {},
                   ),
-                  // CustomIconButton(
-                  //   circleColor: IconColors.more,
-                  //   txt: "2",
-                  //   buttonTitle: "MORE",
-                  //   onTap: () {},
-                  // ),
                 ],
               ),
             ),
