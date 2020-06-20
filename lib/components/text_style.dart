@@ -16,7 +16,6 @@ class BoldText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontFamily: "nunito",
         fontWeight: FontWeight.w900,
         color: color,
         fontSize: size,
