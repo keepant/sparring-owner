@@ -134,6 +134,13 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     height: 15.0,
                   ),
+                  // EmptyCourt(
+                  //   title: "You don\'t have any court yet",
+                  //   subtitle: "Please add to see your court here",
+                  //   onTap: () {
+                  //     print("add court");
+                  //   },
+                  // )
                   ListView(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
@@ -196,6 +203,43 @@ class CourtListTile extends StatelessWidget {
         ),
         enabled: true,
         onTap: onTap,
+      ),
+    );
+  }
+}
+
+class EmptyCourt extends StatelessWidget {
+  final Color iconColor;
+  final String title, subtitle;
+  final GestureTapCallback onTap;
+
+  const EmptyCourt({
+    Key key,
+    this.iconColor,
+    this.title,
+    this.subtitle,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: ListTile(
+        title: Text(title),
+        subtitle: Text(subtitle),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: IconButton(
+            onPressed: onTap,
+            icon: Icon(
+              FontAwesomeIcons.plus,
+              //color: Theme.of(context).primaryColor,
+              size: 25,
+            ),
+          ),
+        ),
+        enabled: true,
       ),
     );
   }
@@ -336,7 +380,10 @@ class CardContainer extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-              blurRadius: 5.0, color: Colors.red[200], offset: Offset(0, 5)),
+            blurRadius: 5.0,
+            color: Colors.red[200],
+            offset: Offset(0, 5),
+          ),
         ],
         borderRadius: BorderRadius.circular(15.0),
         gradient: LinearGradient(
