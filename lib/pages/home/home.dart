@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sparring_owner/components/text_style.dart';
 
 class IconColors {
@@ -54,12 +55,26 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 35.0),
-                    child: BoldText(
-                      text: "Hi, \nkeepant",
-                      size: 18,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, left: 35.0),
+                        child: BoldText(
+                          text: "Hi, \nkeepant",
+                          size: 18,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 35.0),
+                        child: VerificationBadge(
+                          text: "Not verified",
+                          color: Colors.red[700],
+                          icon: FontAwesomeIcons.solidTimesCircle,
+                          onTap: () {},
+                        ),
+                      ),
+                    ],
                   ),
                   Hero(
                     tag: "card",
@@ -210,6 +225,52 @@ class CustomRoundedButton extends StatelessWidget {
           child: Text(
             "More",
             style: TextStyle(color: color),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class VerificationBadge extends StatelessWidget {
+  final Color color;
+  final String text;
+  final GestureTapCallback onTap;
+  final IconData icon;
+
+  VerificationBadge({
+    @required this.color,
+    @required this.text,
+    @required this.onTap,
+    @required this.icon,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 13.0, vertical: 7.0),
+          decoration: BoxDecoration(
+            color: color,
+            border: Border.all(color: color),
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Icon(icon, color: Colors.white),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -10,7 +10,6 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final TextEditingController _nameTxt = new TextEditingController();
   final TextEditingController _emailTxt = new TextEditingController();
-  final TextEditingController _sexTxt = new TextEditingController();
   final TextEditingController _phoneTxt = new TextEditingController();
   final TextEditingController _addressTxt = new TextEditingController();
 
