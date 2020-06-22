@@ -73,7 +73,6 @@ class VerificationStatus extends StatelessWidget {
   final IconData icon;
   final Color color;
   final bool isVerified;
-  final GestureTapCallback onTap;
 
   VerificationStatus({
     Key key,
@@ -83,7 +82,6 @@ class VerificationStatus extends StatelessWidget {
     @required this.icon,
     @required this.color,
     this.isVerified = false,
-    this.onTap,
   }) : super(key: key);
 
   @override

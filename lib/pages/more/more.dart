@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:sparring_owner/components/text_style.dart';
+import 'package:sparring_owner/pages/more/court.dart';
 import 'package:sparring_owner/pages/more/profile.dart';
 import 'package:sparring_owner/services/auth.dart';
 import 'package:sparring_owner/services/auth_check.dart';
@@ -100,6 +101,14 @@ class _MoreState extends State<More> {
             _profileItem(
               icon: FontAwesomeIcons.futbol,
               text: "My Court",
+              onTap: () {
+                pushNewScreen(
+                  context,
+                  screen: Court(),
+                  platformSpecific: true,
+                  withNavBar: false,
+                );
+              }
             ),
             SizedBox(
               height: 5.0,
