@@ -40,6 +40,10 @@ dependencies:
   shared_preferences: ^0.5.3+1
   google_sign_in: ^4.5.1
   grouped_buttons: ^1.0.4
+  modal_bottom_sheet: ^0.1.6+1
+  camera: ^0.5.8+2
+  path_provider: ^1.6.11
+  path: ^1.6.2
 
 dev_dependencies:
   flutter_test:
