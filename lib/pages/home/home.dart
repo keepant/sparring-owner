@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sparring_owner/components/text_style.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sparring_owner/pages/home/verification.dart';
 import 'package:sparring_owner/pages/home/verification/get_start.dart';
 
 class IconColors {
@@ -75,20 +77,15 @@ class _HomeState extends State<Home> {
                           color: Colors.red[700],
                           icon: FontAwesomeIcons.solidTimesCircle,
                           onTap: () {
-                            // showCupertinoModalBottomSheet(
-                            //   expand: true,
-                            //   context: context,
-                            //   backgroundColor: Colors.transparent,
-                            //   builder: (context, scrollController) =>
-                            //       Verification(
-                            //     imagePath: "",
-                            //     scrollController: scrollController,
-                            //   ),
-                            // );
-                            pushNewScreen(
-                              context,
-                              screen: GetStart(),
-                              withNavBar: false 
+                            showCupertinoModalBottomSheet(
+                              expand: true,
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (context, scrollController) =>
+                                  Verification(
+                                status: 'not',
+                                scrollController: scrollController,
+                              ),
                             );
                           },
                         ),

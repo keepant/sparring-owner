@@ -1,25 +1,19 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sparring_owner/pages/home/home.dart';
-import 'package:sparring_owner/pages/home/verification/take_id.dart';
+import 'package:sparring_owner/pages/home/verification/get_start.dart';
 
-class Verification extends StatefulWidget {
+class Verification extends StatelessWidget {
   final ScrollController scrollController;
-  final String imagePath;
+  final String status;
 
-  Verification({Key key, this.scrollController, this.imagePath})
-      : super(key: key);
-
-  @override
-  _VerificationState createState() => _VerificationState();
-}
-
-class _VerificationState extends State<Verification> {
-  final TextEditingController _idCardTxt = new TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  Verification({
+    Key key,
+    this.scrollController,
+    this.status,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +21,7 @@ class _VerificationState extends State<Verification> {
       child: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           automaticallyImplyLeading: false,
-          middle: Text("Verify your account"),
+          middle: Text("Account status"),
           trailing: IconButton(
             icon: Icon(Icons.close),
             onPressed: () {
@@ -40,109 +34,163 @@ class _VerificationState extends State<Verification> {
             },
           ),
         ),
-        child: SafeArea(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-              child: Text(
-                "Please fill the following information to verify your account",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: Form(
-                key: _formKey,
-                child: EditView(
-                  label: "ID card number (KTP)",
-                  textEditingController: _idCardTxt,
-                  keyboardType: TextInputType.number,
-                  hintText: "ID card number ex. 3318261923172",
-                  warningText: "ID card number cannot be empty!",
-                ),
-              ),
-            ),
-            widget.imagePath == ""
-                ? RaisedButton(
-                    child: Text("Take ID"),
-                    onPressed: () {
-                      pushNewScreen(
-                        context,
-                        screen: TakeID(),
-                        platformSpecific: false,
-                        withNavBar: false,
-                      );
-                    },
+        child: status == 'verified'
+            ? VerificationStatus(
+                img: "assets/img/verified-account.png",
+                title: "Horray your account is verified!",
+                icon: FontAwesomeIcons.solidCheckCircle,
+                color: Colors.green,
+                isVerified: true,
+                subtitle:
+                    "Now you can using full feature of our app. Take a adventure of it!",
+              )
+            : status == 'process'
+                ? VerificationStatus(
+                    img: "assets/img/onprocess.png",
+                    title: "Yeeyy your account under review!",
+                    icon: FontAwesomeIcons.history,
+                    color: Colors.blue,
+                    isVerified: true,
+                    subtitle:
+                        "Please wait our team to verify your information. It'\s takes 1-3 work days.",
                   )
-                : Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      child: Image.file(
-                        File(widget.imagePath),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                : VerificationStatus(
+                    img: "assets/img/not-verified.png",
+                    title: "Oh no! Your account not verified yet!",
+                    icon: FontAwesomeIcons.solidTimesCircle,
+                    color: Colors.red,
+                    subtitle: "Verify now to freely access our feature!",
                   ),
-          ],
-        )),
       ),
     );
   }
 }
 
-class EditView extends StatelessWidget {
-  final String label;
-  final String hintText;
-  final TextEditingController textEditingController;
-  final String warningText;
-  final TextInputType keyboardType;
+class VerificationStatus extends StatelessWidget {
+  final String img;
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color color;
+  final bool isVerified;
+  final GestureTapCallback onTap;
 
-  EditView({
-    @required this.label,
-    this.hintText,
-    this.textEditingController,
-    this.warningText,
-    this.keyboardType,
-  });
+  VerificationStatus({
+    Key key,
+    @required this.img,
+    @required this.subtitle,
+    @required this.title,
+    @required this.icon,
+    @required this.color,
+    this.isVerified = false,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: 4.0),
-          child: Text(label),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 5.0),
-          child: TextFormField(
-            controller: textEditingController,
-            keyboardType: keyboardType,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15.0,
-            ),
-            validator: (value) => value.isEmpty ? warningText : null,
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: hintText,
-              hintStyle: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 14.0,
+    Size size = MediaQuery.of(context).size;
+
+    return Container(
+      height: size.height,
+      width: size.width,
+      decoration: BoxDecoration(
+        color: Color(0xfff1eefc),
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    width: 150.0,
+                    height: 150.0,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(img),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          icon,
+                          color: color,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 50.0),
+                    child: Text(
+                      subtitle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16.0, height: 1.6),
+                    ),
+                  ),
+                  isVerified == false
+                      ? Container(
+                          padding: EdgeInsets.only(top: 20, bottom: 50.0),
+                          child: Column(
+                            children: <Widget>[
+                              GestureDetector(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                                  margin: EdgeInsets.only(bottom: 30.0),
+                                  width: size.width - 50.0,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.circular(180.0),
+                                  ),
+                                  child: Text(
+                                    "Verify now!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xffffffff),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  pushNewScreen(
+                                    context,
+                                    screen: GetStart(),
+                                    withNavBar: false,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
+                ],
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
