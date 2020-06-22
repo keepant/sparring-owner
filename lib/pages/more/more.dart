@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:sparring_owner/components/text_style.dart';
-import 'package:sparring_owner/pages/more/court.dart';
+import 'package:sparring_owner/pages/more/court/court.dart';
 import 'package:sparring_owner/pages/more/profile.dart';
 import 'package:sparring_owner/services/auth.dart';
 import 'package:sparring_owner/services/auth_check.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:sparring_owner/pages/more/court/add_court.dart';
 
 class Court extends StatelessWidget {
   Court({
@@ -17,7 +18,13 @@ class Court extends StatelessWidget {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              pushNewScreen(
+                context,
+                screen: AddCourt(),
+                withNavBar: false,
+              );
+            },
             icon: Icon(Icons.add),
           )
         ],
@@ -82,7 +89,7 @@ class Court extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 20, bottom: 50.0),
+                      padding: EdgeInsets.only(top: 10, bottom: 50.0),
                       child: Column(
                         children: <Widget>[
                           GestureDetector(
@@ -105,11 +112,11 @@ class Court extends StatelessWidget {
                               ),
                             ),
                             onTap: () {
-                              // pushNewScreen(
-                              //   context,
-                              //   screen: GetStart(),
-                              //   withNavBar: false,
-                              // );
+                              pushNewScreen(
+                                context,
+                                screen: AddCourt(),
+                                withNavBar: false,
+                              );
                             },
                           ),
                         ],
