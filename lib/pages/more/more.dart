@@ -27,7 +27,6 @@ class More extends StatefulWidget {
 
 class _MoreState extends State<More> {
   SharedPreferences sharedPreferences;
-  String _userId;
 
   _signOut() async {
     await auth.signOut();
@@ -49,11 +48,13 @@ class _MoreState extends State<More> {
   //   });
   // }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _signOut();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    if(widget.userID == null) {
+      _signOut();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class _MoreState extends State<More> {
       child: Query(
         options: QueryOptions(
           documentNode: gql(getOwner),
-          pollInterval: 10,
+          //pollInterval: 10,
           variables: {
             'id': widget.userID,
           },
@@ -165,7 +166,8 @@ class _MoreState extends State<More> {
                       pushNewScreen(
                         context,
                         screen: Profile(
-                          userId: _userId,
+                          userId: widget.userID,
+                          sex: owner['sex'],
                         ),
                         platformSpecific: true,
                         withNavBar: false,

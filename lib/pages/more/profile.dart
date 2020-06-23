@@ -9,10 +9,12 @@ import 'package:intl/intl.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
+  final String sex;
 
   Profile({
     Key key,
     this.userId,
+    this.sex,
   }) : super(key: key);
 
   @override
@@ -27,6 +29,12 @@ class _ProfileState extends State<Profile> {
 
   final _formKey = GlobalKey<FormState>();
   String _picked;
+
+  @override
+  void initState() {
+    super.initState();
+    _picked = widget.sex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +61,7 @@ class _ProfileState extends State<Profile> {
 
           var owner = result.data['owners'][0];
 
-          _picked = owner['sex'] ?? '';
+          // _picked = owner['sex'] ?? '';
 
           return Scaffold(
             backgroundColor: Colors.white,
@@ -136,38 +144,65 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 40,
                   ),
-                  RaisedButton(
-                    onPressed: () {
-                      print("name: " +
-                          _nameTxt.text +
-                          "\nemail: " +
-                          _emailTxt.text +
-                          "\nsex: " +
-                          _picked +
-                          "\nphone number: " +
-                          _phoneTxt.text +
-                          "\naddress: " +
-                          _addressTxt.text);
-
-                      if (_formKey.currentState.validate()) {
-                        FocusScope.of(context).unfocus();
-                        Flushbar(
-                          message: "Saving changes..",
-                          showProgressIndicator: true,
-                          margin: EdgeInsets.all(8),
-                          borderRadius: 8,
-                        )..show(context);
-                      }
-                    },
-                    color: Theme.of(context).primaryColor,
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
+                  Mutation(
+                      options: MutationOptions(
+                        documentNode: gql(updateOwner),
+                        update: (Cache cache, QueryResult result) {
+                          return cache;
+                        },
+                        onCompleted: (dynamic resultData) {
+                          print(resultData);
+                          Flushbar(
+                            message: "Data saved!",
+                            margin: EdgeInsets.all(8),
+                            borderRadius: 8,
+                            duration: Duration(seconds: 2),
+                          )..show(context);
+                        },
+                        onError: (error) => print(error),
                       ),
-                    ),
-                  )
+                      builder: (RunMutation runMutation, QueryResult result) {
+                        return RaisedButton(
+                          onPressed: () {
+                            print("name: " +
+                                _nameTxt.text +
+                                "\nemail: " +
+                                _emailTxt.text +
+                                "\nsex: " +
+                                _picked +
+                                "\nphone number: " +
+                                _phoneTxt.text +
+                                "\naddress: " +
+                                _addressTxt.text);
+
+                            if (_formKey.currentState.validate()) {
+                              runMutation({
+                                'id': widget.userId,
+                                'name': _nameTxt.text,
+                                'sex': _picked,
+                                'phone': _phoneTxt.text,
+                                'address': _addressTxt.text
+                              });
+                              FocusScope.of(context).unfocus();
+                              Flushbar(
+                                message: "Saving changes..",
+                                showProgressIndicator: true,
+                                margin: EdgeInsets.all(8),
+                                borderRadius: 8,
+                                duration: Duration(seconds: 2),
+                              )..show(context);
+                            }
+                          },
+                          color: Theme.of(context).primaryColor,
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      }),
                 ],
               ),
             ),

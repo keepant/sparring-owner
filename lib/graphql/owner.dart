@@ -17,3 +17,19 @@ final String getOwner = """
     }
   }
 """;
+
+final String updateOwner = """
+  mutation updateOwner(\$id: String!, \$name: String!, \$sex: String!, \$phone: String!, \$address: String!){
+    action: update_owners(
+      where: { id: {_eq: \$id}}, 
+      _set: {
+        name: \$name,
+        sex: \$sex,
+        phone_number: \$phone,
+        address: \$address,
+      }
+    ) {
+      affected_rows
+    }
+  }
+""";
