@@ -4,6 +4,15 @@ import 'package:sparring_owner/pages/home/home.dart';
 import 'package:sparring_owner/pages/more/more.dart';
 
 class Root extends StatefulWidget {
+  final String userID;
+  final String name;
+
+  Root({
+    Key key,
+    this.userID,
+    this.name,
+  }) : super(key: key);
+
   @override
   _RootState createState() => _RootState();
 }
@@ -14,8 +23,13 @@ class _RootState extends State<Root> {
 
   List<Widget> _buildScreens() {
     return [
-      Home(),
-      More(),
+      Home(
+        userID: widget.userID,
+        name: widget.name,
+      ),
+      More(
+        userID: widget.userID,
+      ),
     ];
   }
 

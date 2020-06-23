@@ -186,7 +186,10 @@ class _LoginPageState extends State<LoginPage> {
 
             pushNewScreen(
               context,
-              screen: Root(),
+              screen: Root(
+                userID: userId,
+                name: displayName,
+              ),
               platformSpecific: false,
               withNavBar: true,
             );

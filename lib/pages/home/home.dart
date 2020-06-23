@@ -14,6 +14,14 @@ class IconColors {
 }
 
 class Home extends StatefulWidget {
+  final String userID;
+  final String name;
+
+  Home({
+    Key key,
+    this.userID,
+    this.name,
+  }) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }

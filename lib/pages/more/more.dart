@@ -15,13 +15,19 @@ import 'package:sparring_owner/services/auth_check.dart';
 import 'package:sparring_owner/services/prefs.dart';
 
 class More extends StatefulWidget {
+  final String userID;
+
+  More({
+    Key key,
+    this.userID,
+  }) : super(key: key);
   @override
   _MoreState createState() => _MoreState();
 }
 
 class _MoreState extends State<More> {
   SharedPreferences sharedPreferences;
-  String _userID;
+  String _userId;
 
   _signOut() async {
     await auth.signOut();
@@ -36,19 +42,19 @@ class _MoreState extends State<More> {
     );
   }
 
-  _getUserID() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      _userID = (sharedPreferences.getString("userId") ?? '');
-    });
-  }
+  // _getUserId() async {
+  //   sharedPreferences = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _userId = (sharedPreferences.getString("userId") ?? '');
+  //   });
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    _getUserID();
-  }
-  
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _signOut();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
@@ -58,7 +64,7 @@ class _MoreState extends State<More> {
           documentNode: gql(getOwner),
           pollInterval: 10,
           variables: {
-            'id': _userID,
+            'id': widget.userID,
           },
         ),
         builder: (QueryResult result,
@@ -159,7 +165,7 @@ class _MoreState extends State<More> {
                       pushNewScreen(
                         context,
                         screen: Profile(
-                          userId: _userID,
+                          userId: _userId,
                         ),
                         platformSpecific: true,
                         withNavBar: false,

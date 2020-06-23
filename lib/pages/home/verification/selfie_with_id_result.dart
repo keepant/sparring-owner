@@ -206,7 +206,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                               context,
                               screen: Home(),
                               platformSpecific: false,
-                              withNavBar: false,
+                              withNavBar: true,
                             );
                           },
                         ),
