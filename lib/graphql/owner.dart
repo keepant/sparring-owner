@@ -14,6 +14,7 @@ final String getOwner = """
       username
       is_verified
       created_at
+      account_status
     }
   }
 """;
