@@ -1,8 +1,12 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
+import 'package:sparring_owner/api/api.dart';
+import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/components/text_style.dart';
+import 'package:sparring_owner/graphql/owner.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
 import 'package:sparring_owner/pages/more/profile.dart';
 import 'package:sparring_owner/services/auth.dart';
@@ -15,137 +19,188 @@ class More extends StatefulWidget {
 }
 
 class _MoreState extends State<More> {
+  _signOut() async {
+    await auth.signOut();
+
+    await prefs.clearToken();
+
+    pushNewScreen(
+      context,
+      screen: AuthCheck(),
+      platformSpecific: false,
+      withNavBar: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          "Account",
-          style: TextStyle(
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
-            fontSize: 21.0,
-          ),
+    return GraphQLProvider(
+      client: API.client,
+      child: Query(
+        options: QueryOptions(
+          documentNode: gql(getOwner),
+          pollInterval: 10,
+          variables: {
+            'id': '59EJh9SP6veiDtCm5crstGCIQjA3',
+          },
         ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+        builder: (QueryResult result,
+            {FetchMore fetchMore, VoidCallback refetch}) {
+          if (result.loading) {
+            return Loading();
+          }
+
+          if (result.exception.toString().contains('Could not verify JWT')) {
+            return _signOut();
+          }
+
+          if (result.hasException) {
+            print(result.exception.toString());
+            return Center(
+              child: Text(result.exception.toString()),
+            );
+          }
+
+          var owner = result.data['owners'][0];
+          print(owner['name']);
+
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              title: Text(
+                "Account",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 21.0,
+                ),
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              elevation: 0,
+            ),
+            body: SingleChildScrollView(
+              child: Column(
                 children: <Widget>[
-                  CircleAvatar(
-                      radius: 50, child: Image.asset('assets/img/pp.png')),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 30),
-                    child: Column(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        BoldText(
-                            text: "Irfan Dwi Prasetyo",
-                            size: 20.0,
-                            color: Colors.black),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.location_on,
-                              color: Theme.of(context).primaryColor,
-                              size: 15.0,
-                            ),
-                            NormalText(
-                              text: "Oran,Algeria",
-                              color: Colors.grey,
-                              size: 16,
-                            ),
-                          ],
+                        CircleAvatar(
+                          radius: 50,
+                          child: owner["profile_picture"] == null
+                              ? Image.asset('assets/img/pp.png')
+                              : Image.network(owner["profile_picture"]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              BoldText(
+                                  text: owner["name"],
+                                  size: 20.0,
+                                  color: Colors.black),
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Theme.of(context).primaryColor,
+                                    size: 15.0,
+                                  ),
+                                  NormalText(
+                                    text: owner["address"] == null
+                                        ? "-"
+                                        : owner["address"],
+                                    color: Colors.grey,
+                                    size: 16,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  Divider(
+                    thickness: 1,
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  _profileItem(
+                    icon: FontAwesomeIcons.userAlt,
+                    text: "My Informations",
+                    onTap: () {
+                      print('my info');
+                      pushNewScreen(
+                        context,
+                        screen: Profile(),
+                        platformSpecific: true,
+                        withNavBar: false,
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  _profileItem(
+                      icon: FontAwesomeIcons.futbol,
+                      text: "My Court",
+                      onTap: () {
+                        pushNewScreen(
+                          context,
+                          screen: Court(),
+                          platformSpecific: true,
+                          withNavBar: false,
+                        );
+                      }),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  _profileItem(
+                    icon: FontAwesomeIcons.infoCircle,
+                    text: "About Us ",
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  _profileItem(
+                    icon: FontAwesomeIcons.signOutAlt,
+                    text: "Logout",
+                    onTap: () async {
+                      final auth = new Auth();
+                      await auth.signOut();
+
+                      await prefs.clearToken();
+
+                      pushNewScreen(
+                        context,
+                        screen: AuthCheck(),
+                        platformSpecific: false,
+                        withNavBar: false,
+                      );
+
+                      Flushbar(
+                        message: "Logout successfully!",
+                        margin: EdgeInsets.all(8),
+                        borderRadius: 8,
+                        duration: Duration(seconds: 4),
+                      )..show(context);
+                    },
+                  ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Divider(
-              thickness: 1,
-            ),
-            SizedBox(
-              height: 5.0,
-            ),
-            _profileItem(
-              icon: FontAwesomeIcons.userAlt,
-              text: "My Informations",
-              onTap: () {
-                print('my info');
-                pushNewScreen(
-                  context,
-                  screen: Profile(),
-                  platformSpecific: true,
-                  withNavBar: false,
-                );
-              },
-            ),
-            SizedBox(
-              height: 5.0,
-            ),
-            _profileItem(
-              icon: FontAwesomeIcons.futbol,
-              text: "My Court",
-              onTap: () {
-                pushNewScreen(
-                  context,
-                  screen: Court(),
-                  platformSpecific: true,
-                  withNavBar: false,
-                );
-              }
-            ),
-            SizedBox(
-              height: 5.0,
-            ),
-            _profileItem(
-              icon: FontAwesomeIcons.infoCircle,
-              text: "About Us ",
-            ),
-            SizedBox(
-              height: 5.0,
-            ),
-            _profileItem(
-              icon: FontAwesomeIcons.signOutAlt,
-              text: "Logout",
-              onTap: () async {
-                final auth = new Auth();
-                await auth.signOut();
-
-                await prefs.clearToken();
-
-                pushNewScreen(
-                  context,
-                  screen: AuthCheck(),
-                  platformSpecific: false,
-                  withNavBar: false,
-                );
-
-                Flushbar(
-                  message: "Logout successfully!",
-                  margin: EdgeInsets.all(8),
-                  borderRadius: 8,
-                  duration: Duration(seconds: 4),
-                )..show(context);
-              },
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:sparring_owner/pages/home/verification/take_selfie.dart';
 import 'package:sparring_owner/pages/home/verification/take_selfie_with_id.dart';
 
 class SelfieResult extends StatelessWidget {

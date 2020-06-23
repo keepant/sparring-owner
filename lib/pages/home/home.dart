@@ -5,7 +5,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sparring_owner/components/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sparring_owner/pages/home/verification.dart';
-import 'package:sparring_owner/pages/home/verification/get_start.dart';
 
 class IconColors {
   static const Color send = Color(0xffecfaf8);
