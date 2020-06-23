@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/components/text_style.dart';
@@ -19,6 +20,9 @@ class More extends StatefulWidget {
 }
 
 class _MoreState extends State<More> {
+  SharedPreferences sharedPreferences;
+  String _userID;
+
   _signOut() async {
     await auth.signOut();
 
@@ -32,6 +36,19 @@ class _MoreState extends State<More> {
     );
   }
 
+  _getUserID() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      _userID = (sharedPreferences.getString("userId") ?? '');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserID();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
@@ -41,7 +58,7 @@ class _MoreState extends State<More> {
           documentNode: gql(getOwner),
           pollInterval: 10,
           variables: {
-            'id': '59EJh9SP6veiDtCm5crstGCIQjA3',
+            'id': _userID,
           },
         ),
         builder: (QueryResult result,
@@ -62,7 +79,6 @@ class _MoreState extends State<More> {
           }
 
           var owner = result.data['owners'][0];
-          print(owner['name']);
 
           return Scaffold(
             backgroundColor: Colors.white,
@@ -142,7 +158,9 @@ class _MoreState extends State<More> {
                       print('my info');
                       pushNewScreen(
                         context,
-                        screen: Profile(),
+                        screen: Profile(
+                          userId: _userID,
+                        ),
                         platformSpecific: true,
                         withNavBar: false,
                       );
