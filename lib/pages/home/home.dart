@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/components/text_style.dart';
@@ -21,13 +22,8 @@ class IconColors {
 }
 
 class Home extends StatefulWidget {
-  final String userID;
-  final String name;
-
   Home({
     Key key,
-    this.userID,
-    this.name,
   }) : super(key: key);
 
   @override
@@ -35,6 +31,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  SharedPreferences sharedPreferences;
+  String _userId;
+
   _signOut() async {
     await auth.signOut();
 
@@ -46,6 +45,22 @@ class _HomeState extends State<Home> {
       platformSpecific: false,
       withNavBar: false,
     );
+  }
+
+  _getUserId() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      _userId = (sharedPreferences.getString("userId") ?? '');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserId();
+    // if (_userId == null) {
+    //   _signOut();
+    // }
   }
 
   Color getColorStatus(String status) {
@@ -68,7 +83,7 @@ class _HomeState extends State<Home> {
     return FontAwesomeIcons.solidTimesCircle;
   }
 
-  String getStatus (String status) {
+  String getStatus(String status) {
     if (status == 'verified') {
       return "Verified";
     } else if (status == 'process') {
@@ -80,14 +95,14 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return GraphQLProvider(
+    return _userId == ''? Loading() : GraphQLProvider(
       client: API.client,
       child: Query(
         options: QueryOptions(
             documentNode: gql(getOwner),
             pollInterval: 1,
             variables: {
-              'id': "sRqSjUusf1fi521PgR9qMZvSti12",
+              'id': _userId,
             }),
         builder: (QueryResult result,
             {FetchMore fetchMore, VoidCallback refetch}) {
@@ -165,7 +180,7 @@ class _HomeState extends State<Home> {
                                     backgroundColor: Colors.transparent,
                                     builder: (context, scrollController) =>
                                         Verification(
-                                      status: 'not',
+                                      status: owner['account_status'],
                                       scrollController: scrollController,
                                     ),
                                   );
