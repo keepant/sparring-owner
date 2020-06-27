@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/services/auth_check.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  OneSignal.shared.init("1a92dc26-0954-4d02-aa1d-a8af75f218bb", iOSSettings: null);
+  OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
+  
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

@@ -70,14 +70,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Positioned(top: 35, left: 0, child: _backButton()),
+            //Positioned(top: 35, left: 0, child: backButton()),
           ],
         ),
       ),
     );
   }
 
-  Widget _backButton() {
+  Widget backButton() {
     return InkWell(
       onTap: () {
         Navigator.pop(context);

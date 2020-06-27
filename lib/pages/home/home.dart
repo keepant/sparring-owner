@@ -370,13 +370,13 @@ class _HomeState extends State<Home> {
                               CustomIconButton(
                                 circleColor: IconColors.passbook,
                                 txt: "5",
-                                buttonTitle: "Booking",
+                                buttonTitle: "Upcoming",
                                 onTap: () {},
                               ),
                               CustomIconButton(
                                 circleColor: IconColors.more,
                                 txt: "5",
-                                buttonTitle: "Booking",
+                                buttonTitle: "Upcoming",
                                 onTap: () {},
                               ),
                             ],
