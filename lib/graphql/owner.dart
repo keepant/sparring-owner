@@ -34,3 +34,31 @@ final String updateOwner = """
     }
   }
 """;
+
+final getTotalIncome = """
+  query getTotalIncome(\$id: String!){
+    owners(where: {id: {_eq: \$id}}) {
+      courts {
+        bookings_aggregate{
+          aggregate{
+            sum{
+              total_price
+            }
+          }
+        }
+      }
+    }
+  }
+""";
+
+final getCountCourt = """
+  query getCountCourt(\$id: String!){
+    owners(where: {id: {_eq: \$id}}) {
+      courts_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+""";

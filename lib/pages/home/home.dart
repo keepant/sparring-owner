@@ -4,6 +4,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/components/text_style.dart';
@@ -11,8 +12,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:sparring_owner/graphql/owner.dart';
 import 'package:sparring_owner/pages/home/verification.dart';
 import 'package:sparring_owner/services/auth.dart';
-import 'package:sparring_owner/services/auth_check.dart';
 import 'package:sparring_owner/services/prefs.dart';
+import 'package:sparring_owner/utils/utils.dart';
 
 class IconColors {
   static const Color send = Color(0xffecfaf8);
@@ -38,13 +39,6 @@ class _HomeState extends State<Home> {
     await auth.signOut();
 
     await prefs.clearToken();
-
-    pushNewScreen(
-      context,
-      screen: AuthCheck(),
-      platformSpecific: false,
-      withNavBar: false,
-    );
   }
 
   _getUserId() async {
@@ -95,199 +89,264 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return _userId == ''? Loading() : GraphQLProvider(
-      client: API.client,
-      child: Query(
-        options: QueryOptions(
-            documentNode: gql(getOwner),
-            pollInterval: 1,
-            variables: {
-              'id': _userId,
-            }),
-        builder: (QueryResult result,
-            {FetchMore fetchMore, VoidCallback refetch}) {
-          if (result.loading) {
-            return Loading();
-          }
+    return _userId == ''
+        ? Loading()
+        : GraphQLProvider(
+            client: API.client,
+            child: Query(
+              options: QueryOptions(
+                  documentNode: gql(getOwner),
+                  pollInterval: 1,
+                  variables: {
+                    'id': _userId,
+                  }),
+              builder: (QueryResult result,
+                  {FetchMore fetchMore, VoidCallback refetch}) {
+                if (result.loading) {
+                  return Loading();
+                }
 
-          if (result.hasException) {
-            return Center(
-              child: Text(result.exception.toString()),
-            );
-          }
+                if (result.exception
+                    .toString()
+                    .contains('Could not verify JWT')) {
+                  return _signOut();
+                }
 
-          var owner = result.data['owners'][0];
+                if (result.hasException) {
+                  return Center(
+                    child: Text(result.exception.toString()),
+                  );
+                }
 
-          return Scaffold(
-            backgroundColor: Color(0xffdee4eb),
-            appBar: AppBar(
-              title: Text(
-                "Home",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 21.0,
-                ),
-              ),
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              elevation: 0,
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 5.0,
-                          color: Colors.grey[300],
-                          spreadRadius: 5.0,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(51),
-                        bottomLeft: Radius.circular(51),
+                var owner = result.data['owners'][0];
+
+                return Scaffold(
+                  backgroundColor: Color(0xffdee4eb),
+                  appBar: AppBar(
+                    title: Text(
+                      "Home",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 21.0,
                       ),
-                      color: Colors.white,
                     ),
+                    centerTitle: true,
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                  ),
+                  body: SingleChildScrollView(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 8.0, left: 35.0),
-                              child: BoldText(
-                                text: "Hi, \n" + owner['name'],
-                                size: 18,
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 5.0,
+                                color: Colors.grey[300],
+                                spreadRadius: 5.0,
                               ),
+                            ],
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(51),
+                              bottomLeft: Radius.circular(51),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 35.0),
-                              child: VerificationBadge(
-                                text: getStatus(owner['account_status']),
-                                color: getColorStatus(owner['account_status']),
-                                icon: getIconStatus(owner['account_status']),
-                                onTap: () {
-                                  showCupertinoModalBottomSheet(
-                                    expand: true,
-                                    context: context,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (context, scrollController) =>
-                                        Verification(
-                                      status: owner['account_status'],
-                                      scrollController: scrollController,
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, left: 35.0),
+                                    child: BoldText(
+                                      text: "Hi, \n" + owner['name'],
+                                      size: 18,
                                     ),
-                                  );
-                                },
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 35.0),
+                                    child: VerificationBadge(
+                                      text: getStatus(owner['account_status']),
+                                      color: getColorStatus(
+                                          owner['account_status']),
+                                      icon: getIconStatus(
+                                          owner['account_status']),
+                                      onTap: () {
+                                        showCupertinoModalBottomSheet(
+                                          expand: true,
+                                          context: context,
+                                          backgroundColor: Colors.transparent,
+                                          builder:
+                                              (context, scrollController) =>
+                                                  Verification(
+                                            status: owner['account_status'],
+                                            scrollController: scrollController,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                    child: Query(
+                                  options: QueryOptions(
+                                      documentNode: gql(getTotalIncome),
+                                      //pollInterval: 5,
+                                      variables: {
+                                        'id': '1',
+                                      }),
+                                  builder: (QueryResult result,
+                                      {FetchMore fetchMore,
+                                      VoidCallback refetch}) {
+                                    if (result.loading) {
+                                      return Shimmer.fromColors(
+                                          highlightColor: Colors.grey[100],
+                                          baseColor: Colors.grey[300],
+                                          child: Container(
+                                            height: 86,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            margin: EdgeInsets.fromLTRB(
+                                                31, 21, 31, 41),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                              color: Colors.white,
+                                            ),
+                                          ));
+                                    }
+
+                                    if (result.hasException) {
+                                      return Center(
+                                        child:
+                                            Text(result.exception.toString()),
+                                      );
+                                    }
+
+                                    var income = 0;
+
+                                    for (var i = 0;
+                                        i <
+                                            result.data['owners'][0]['courts']
+                                                .length;
+                                        i++) {
+                                      income += result.data['owners'][0]
+                                                  ['courts'][i]
+                                              ['bookings_aggregate']
+                                          ['aggregate']['sum']['total_price'];
+                                    }
+
+                                    //print("income: " + income.toString());
+
+                                    return CardContainer(
+                                      caption: "Total income",
+                                      label: formatCurrency(income),
+                                    );
+                                  },
+                                )),
+                              ),
+                            ],
+                          ),
                         ),
-                        Hero(
-                          tag: "card",
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              child: CardContainer(),
-                            ),
+                        CustomContainer(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              CustomIconButton(
+                                circleColor: IconColors.send,
+                                txt: "2",
+                                buttonTitle: "Court",
+                                onTap: () {},
+                              ),
+                              CustomIconButton(
+                                circleColor: IconColors.transfer,
+                                txt: "3",
+                                buttonTitle: "Completed Booking",
+                                onTap: () {},
+                              ),
+                              CustomIconButton(
+                                circleColor: IconColors.passbook,
+                                txt: "5",
+                                buttonTitle: "Upcoming Booking",
+                                onTap: () {},
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomContainer(
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    "Your court",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  CustomRoundedButton(
+                                    buttonText: "More",
+                                    color: Colors.blue,
+                                    onTap: () {},
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                              // EmptyCourt(
+                              //   title: "You don\'t have any court yet",
+                              //   subtitle: "Please add to see your court here",
+                              //   onTap: () {
+                              //     print("add court");
+                              //   },
+                              // )
+                              ListView(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                children: <Widget>[
+                                  CourtListTile(
+                                    iconColor: IconColors.transfer,
+                                    onTap: () {},
+                                    title: "Lapangan Laris Manis",
+                                    address: "Karanganyar",
+                                  ),
+                                  CourtListTile(
+                                    iconColor: IconColors.transfer,
+                                    onTap: () {},
+                                    title: "Cybdom Lapangan Laris Manis",
+                                    address: "Surakarta",
+                                  ),
+                                  CourtListTile(
+                                    iconColor: IconColors.send,
+                                    onTap: () {},
+                                    title: "Lapangan Laris Manis II",
+                                    address: "Klaten",
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  CustomContainer(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        CustomIconButton(
-                          circleColor: IconColors.send,
-                          txt: "2",
-                          buttonTitle: "Court",
-                          onTap: () {},
-                        ),
-                        CustomIconButton(
-                          circleColor: IconColors.transfer,
-                          txt: "3",
-                          buttonTitle: "Completed Booking",
-                          onTap: () {},
-                        ),
-                        CustomIconButton(
-                          circleColor: IconColors.passbook,
-                          txt: "5",
-                          buttonTitle: "Upcoming Booking",
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                  CustomContainer(
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              "Your court",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                            CustomRoundedButton(
-                              buttonText: "More",
-                              color: Colors.blue,
-                              onTap: () {},
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        // EmptyCourt(
-                        //   title: "You don\'t have any court yet",
-                        //   subtitle: "Please add to see your court here",
-                        //   onTap: () {
-                        //     print("add court");
-                        //   },
-                        // )
-                        ListView(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          children: <Widget>[
-                            CourtListTile(
-                              iconColor: IconColors.transfer,
-                              onTap: () {},
-                              title: "Lapangan Laris Manis",
-                              address: "Karanganyar",
-                            ),
-                            CourtListTile(
-                              iconColor: IconColors.transfer,
-                              onTap: () {},
-                              title: "Cybdom Lapangan Laris Manis",
-                              address: "Surakarta",
-                            ),
-                            CourtListTile(
-                              iconColor: IconColors.send,
-                              onTap: () {},
-                              title: "Lapangan Laris Manis II",
-                              address: "Klaten",
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           );
-        },
-      ),
-    );
   }
 }
 
@@ -485,8 +544,13 @@ class CustomIconButton extends StatelessWidget {
 }
 
 class CardContainer extends StatelessWidget {
+  final String label;
+  final String caption;
+
   const CardContainer({
     Key key,
+    this.label,
+    this.caption,
   }) : super(key: key);
 
   @override
@@ -517,12 +581,12 @@ class CardContainer extends StatelessWidget {
           children: <Widget>[
             Container(),
             Text(
-              "Summary",
+              caption,
               style: TextStyle(color: Colors.white, fontSize: 15),
             ),
             SizedBox(height: 10),
             Text(
-              "Rp. 3.000.000,00",
+              label,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
