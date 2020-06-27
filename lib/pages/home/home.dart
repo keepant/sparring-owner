@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sparring_owner/graphql/owner.dart';
 import 'package:sparring_owner/pages/home/verification.dart';
 import 'package:sparring_owner/pages/more/court/add_court.dart';
+import 'package:sparring_owner/pages/more/court/court.dart';
 import 'package:sparring_owner/services/auth.dart';
 import 'package:sparring_owner/services/prefs.dart';
 import 'package:sparring_owner/utils/utils.dart';
@@ -269,11 +270,44 @@ class _HomeState extends State<Home> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              CustomIconButton(
-                                circleColor: IconColors.send,
-                                txt: "2",
-                                buttonTitle: "Court",
-                                onTap: () {},
+                              Query(
+                                options: QueryOptions(
+                                    documentNode: gql(getCountCourt),
+                                    pollInterval: 5,
+                                    variables: {
+                                      'id': _userId,
+                                    }),
+                                builder: (QueryResult result,
+                                    {FetchMore fetchMore,
+                                    VoidCallback refetch}) {
+                                  if (result.hasException) {
+                                    return Center(
+                                      child: Text(result.exception.toString()),
+                                    );
+                                  }
+
+                                  if (result.loading) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.grey[100],
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    );
+                                  }
+
+                                  var totalCourt = result.data['owners'][0]
+                                          ['courts_aggregate']['aggregate']
+                                      ['count'];
+
+                                  return CustomIconButton(
+                                    circleColor: IconColors.send,
+                                    txt: totalCourt.toString(),
+                                    buttonTitle: "Court",
+                                    onTap: () {},
+                                  );
+                                },
                               ),
                               CustomIconButton(
                                 circleColor: IconColors.transfer,
@@ -499,7 +533,13 @@ class CustomRoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          pushNewScreen(
+            context,
+            screen: Court(),
+            withNavBar: false,
+          );
+        },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 13.0, vertical: 7.0),
           decoration: BoxDecoration(
