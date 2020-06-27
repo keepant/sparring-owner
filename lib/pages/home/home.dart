@@ -305,7 +305,13 @@ class _HomeState extends State<Home> {
                                     circleColor: IconColors.send,
                                     txt: totalCourt.toString(),
                                     buttonTitle: "Court",
-                                    onTap: () {},
+                                    onTap: () {
+                                      pushNewScreen(
+                                        context,
+                                        screen: Court(),
+                                        withNavBar: false,
+                                      );
+                                    },
                                   );
                                 },
                               ),
