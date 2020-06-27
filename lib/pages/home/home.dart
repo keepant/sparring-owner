@@ -201,9 +201,9 @@ class _HomeState extends State<Home> {
                                     child: Query(
                                   options: QueryOptions(
                                       documentNode: gql(getTotalIncome),
-                                      //pollInterval: 5,
+                                      pollInterval: 5,
                                       variables: {
-                                        'id': '1',
+                                        'id': _userId,
                                       }),
                                   builder: (QueryResult result,
                                       {FetchMore fetchMore,
@@ -220,7 +220,8 @@ class _HomeState extends State<Home> {
                                             margin: EdgeInsets.fromLTRB(
                                                 31, 21, 31, 41),
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(15.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
                                               color: Colors.white,
                                             ),
                                           ));
@@ -234,16 +235,21 @@ class _HomeState extends State<Home> {
                                     }
 
                                     var income = 0;
+                                    var length = result
+                                        .data['owners'][0]['courts'].length;
 
-                                    for (var i = 0;
-                                        i <
-                                            result.data['owners'][0]['courts']
-                                                .length;
-                                        i++) {
-                                      income += result.data['owners'][0]
+                                    for (var i = 0; i < length; i++) {
+                                      var cos = result.data['owners'][0]
                                                   ['courts'][i]
                                               ['bookings_aggregate']
                                           ['aggregate']['sum']['total_price'];
+                                          
+                                      if(cos != null) {
+                                         income += result.data['owners'][0]
+                                                  ['courts'][i]
+                                              ['bookings_aggregate']
+                                          ['aggregate']['sum']['total_price'];
+                                      }
                                     }
 
                                     //print("income: " + income.toString());
