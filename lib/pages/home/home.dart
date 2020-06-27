@@ -91,7 +91,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return _userId == ''
+    return _userId == null
         ? Loading()
         : GraphQLProvider(
             client: API.client,
@@ -212,21 +212,21 @@ class _HomeState extends State<Home> {
                                       VoidCallback refetch}) {
                                     if (result.loading) {
                                       return Shimmer.fromColors(
-                                          highlightColor: Colors.grey[100],
-                                          baseColor: Colors.grey[300],
-                                          child: Container(
-                                            height: 86,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            margin: EdgeInsets.fromLTRB(
-                                                31, 21, 31, 41),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0),
-                                              color: Colors.white,
-                                            ),
-                                          ));
+                                        highlightColor: Colors.grey[100],
+                                        baseColor: Colors.grey[300],
+                                        child: Container(
+                                          height: 86,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          margin: EdgeInsets.fromLTRB(
+                                              31, 21, 31, 41),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      );
                                     }
 
                                     if (result.hasException) {
@@ -309,16 +309,68 @@ class _HomeState extends State<Home> {
                                   );
                                 },
                               ),
-                              CustomIconButton(
-                                circleColor: IconColors.transfer,
-                                txt: "3",
-                                buttonTitle: "Completed Booking",
-                                onTap: () {},
+                              Query(
+                                options: QueryOptions(
+                                    documentNode: gql(getCountBookings),
+                                    pollInterval: 5,
+                                    variables: {
+                                      'id': _userId,
+                                    }),
+                                builder: (QueryResult result,
+                                    {FetchMore fetchMore,
+                                    VoidCallback refetch}) {
+                                  if (result.hasException) {
+                                    return Center(
+                                      child: Text(result.exception.toString()),
+                                    );
+                                  }
+
+                                  if (result.loading) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.grey[100],
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    );
+                                  }
+
+                                  var totalBookings = 0;
+                                  var length =
+                                      result.data['owners'][0]['courts'].length;
+
+                                  for (var i = 0; i < length; i++) {
+                                    var sum = result.data['owners'][0]['courts']
+                                            [i]['bookings_aggregate']
+                                        ['aggregate']['count'];
+
+                                    if (sum != null) {
+                                      totalBookings += result.data['owners'][0]
+                                                  ['courts'][i]
+                                              ['bookings_aggregate']
+                                          ['aggregate']['count'];
+                                    }
+                                  }
+
+                                  return CustomIconButton(
+                                    circleColor: IconColors.transfer,
+                                    txt: totalBookings.toString(),
+                                    buttonTitle: "Bookings",
+                                    onTap: () {},
+                                  );
+                                },
                               ),
                               CustomIconButton(
                                 circleColor: IconColors.passbook,
                                 txt: "5",
-                                buttonTitle: "Upcoming Booking",
+                                buttonTitle: "Booking",
+                                onTap: () {},
+                              ),
+                              CustomIconButton(
+                                circleColor: IconColors.more,
+                                txt: "5",
+                                buttonTitle: "Booking",
                                 onTap: () {},
                               ),
                             ],

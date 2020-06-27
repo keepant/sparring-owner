@@ -78,3 +78,17 @@ final getOwnerCourt = """
     }
   }
 """;
+
+final getCountBookings = """
+  query getCountBookings(\$id: String!){
+    owners(where: {id: {_eq: \$id}}) {
+      courts{
+        bookings_aggregate{
+          aggregate {
+            count
+          }
+        }
+      }
+    }
+  }
+""";
