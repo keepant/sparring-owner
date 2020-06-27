@@ -11,6 +11,7 @@ import 'package:sparring_owner/components/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sparring_owner/graphql/owner.dart';
 import 'package:sparring_owner/pages/home/verification.dart';
+import 'package:sparring_owner/pages/more/court/add_court.dart';
 import 'package:sparring_owner/services/auth.dart';
 import 'package:sparring_owner/services/prefs.dart';
 import 'package:sparring_owner/utils/utils.dart';
@@ -243,12 +244,12 @@ class _HomeState extends State<Home> {
                                                   ['courts'][i]
                                               ['bookings_aggregate']
                                           ['aggregate']['sum']['total_price'];
-                                          
-                                      if(cos != null) {
-                                         income += result.data['owners'][0]
-                                                  ['courts'][i]
-                                              ['bookings_aggregate']
-                                          ['aggregate']['sum']['total_price'];
+
+                                      if (cos != null) {
+                                        income += result.data['owners'][0]
+                                                    ['courts'][i]
+                                                ['bookings_aggregate']
+                                            ['aggregate']['sum']['total_price'];
                                       }
                                     }
 
@@ -312,37 +313,91 @@ class _HomeState extends State<Home> {
                               SizedBox(
                                 height: 15.0,
                               ),
-                              // EmptyCourt(
-                              //   title: "You don\'t have any court yet",
-                              //   subtitle: "Please add to see your court here",
-                              //   onTap: () {
-                              //     print("add court");
-                              //   },
-                              // )
-                              ListView(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                children: <Widget>[
-                                  CourtListTile(
-                                    iconColor: IconColors.transfer,
-                                    onTap: () {},
-                                    title: "Lapangan Laris Manis",
-                                    address: "Karanganyar",
-                                  ),
-                                  CourtListTile(
-                                    iconColor: IconColors.transfer,
-                                    onTap: () {},
-                                    title: "Cybdom Lapangan Laris Manis",
-                                    address: "Surakarta",
-                                  ),
-                                  CourtListTile(
-                                    iconColor: IconColors.send,
-                                    onTap: () {},
-                                    title: "Lapangan Laris Manis II",
-                                    address: "Klaten",
-                                  ),
-                                ],
-                              ),
+                              Query(
+                                options: QueryOptions(
+                                    documentNode: gql(getOwnerCourt),
+                                    pollInterval: 5,
+                                    variables: {
+                                      'id': _userId,
+                                    }),
+                                builder: (QueryResult result,
+                                    {FetchMore fetchMore,
+                                    VoidCallback refetch}) {
+                                  if (result.hasException) {
+                                    return Center(
+                                      child: Text(result.exception.toString()),
+                                    );
+                                  }
+
+                                  if (result.loading) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.grey[100],
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: 3,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            title: Container(
+                                              height: 14,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            subtitle: Container(
+                                              height: 10,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            isThreeLine: true,
+                                            leading: Container(
+                                              width: 70,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+
+                                  var courtList =
+                                      result.data['owners'][0]['courts'];
+
+                                  return courtList.length < 1
+                                      ? EmptyCourt()
+                                      : ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: courtList.length,
+                                          itemBuilder: (context, index) {
+                                            var court = courtList[index];
+                                            var img = courtList[index]
+                                                ['court_images'][0];
+
+                                            return CourtListTile(
+                                              title: court['name'],
+                                              address: court['address'],
+                                              img: img['name'],
+                                            );
+                                          },
+                                        );
+                                },
+                              )
                             ],
                           ),
                         ),
@@ -360,12 +415,15 @@ class CourtListTile extends StatelessWidget {
   final Color iconColor;
   final String title, address;
   final GestureTapCallback onTap;
+  final String img;
+
   const CourtListTile({
     Key key,
     this.iconColor,
     this.title,
     this.address,
     this.onTap,
+    this.img,
   }) : super(key: key);
 
   @override
@@ -376,10 +434,14 @@ class CourtListTile extends StatelessWidget {
         title: Text(title),
         subtitle: Text(address),
         isThreeLine: true,
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.network(
-            'https://adhyasta.com/assets/images/3-lapangan-futsal.jpg',
+        leading: Container(
+          width: 70,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(img),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(8.0),
           ),
         ),
         enabled: true,
@@ -390,16 +452,8 @@ class CourtListTile extends StatelessWidget {
 }
 
 class EmptyCourt extends StatelessWidget {
-  final Color iconColor;
-  final String title, subtitle;
-  final GestureTapCallback onTap;
-
   const EmptyCourt({
     Key key,
-    this.iconColor,
-    this.title,
-    this.subtitle,
-    this.onTap,
   }) : super(key: key);
 
   @override
@@ -407,12 +461,18 @@ class EmptyCourt extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: ListTile(
-        title: Text(title),
-        subtitle: Text(subtitle),
+        title: Text("You don\'t have any court yet"),
+        subtitle: Text("Please add to see your court here"),
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: IconButton(
-            onPressed: onTap,
+            onPressed: () {
+              pushNewScreen(
+                context,
+                screen: AddCourt(),
+                withNavBar: false,
+              );
+            },
             icon: Icon(
               FontAwesomeIcons.plus,
               //color: Theme.of(context).primaryColor,

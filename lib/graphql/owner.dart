@@ -62,3 +62,19 @@ final getCountCourt = """
     }
   }
 """;
+
+final getOwnerCourt = """
+  query getOwnerCourt(\$id: String!){
+    owners(where: {id: {_eq: \$id}}) {
+      courts{
+        id
+        name
+        address
+        court_images{
+          id
+          name
+        }
+      }
+    }
+  }
+""";
