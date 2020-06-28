@@ -92,3 +92,18 @@ final getCountBookings = """
     }
   }
 """;
+
+final getCountBookingsBaseOnStatus = """
+  query getCountBookingsBaseOnStatus(\$id: String!, \$status: String!){
+    bookings_aggregate(where: {
+      _and: [
+        {court: {owner_id: {_eq: \$id}}}
+        {booking_status: {_eq: \$status}}
+      ]
+    }){
+      aggregate {
+        count
+      }
+    }  
+  }
+""";

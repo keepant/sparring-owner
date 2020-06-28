@@ -317,6 +317,86 @@ class _HomeState extends State<Home> {
                               ),
                               Query(
                                 options: QueryOptions(
+                                    documentNode:
+                                        gql(getCountBookingsBaseOnStatus),
+                                    pollInterval: 5,
+                                    variables: {
+                                      'id': _userId,
+                                      'status': 'upcoming',
+                                    }),
+                                builder: (QueryResult result,
+                                    {FetchMore fetchMore,
+                                    VoidCallback refetch}) {
+                                  if (result.hasException) {
+                                    return Center(
+                                      child: Text(result.exception.toString()),
+                                    );
+                                  }
+
+                                  if (result.loading) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.grey[100],
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    );
+                                  }
+
+                                  var status = result.data['bookings_aggregate']
+                                      ['aggregate']['count'];
+
+                                  return CustomIconButton(
+                                    circleColor: IconColors.passbook,
+                                    txt: status.toString(),
+                                    buttonTitle: "Upcoming",
+                                    onTap: () {},
+                                  );
+                                },
+                              ),
+                              Query(
+                                options: QueryOptions(
+                                    documentNode:
+                                        gql(getCountBookingsBaseOnStatus),
+                                    pollInterval: 5,
+                                    variables: {
+                                      'id': _userId,
+                                      'status': 'completed',
+                                    }),
+                                builder: (QueryResult result,
+                                    {FetchMore fetchMore,
+                                    VoidCallback refetch}) {
+                                  if (result.hasException) {
+                                    return Center(
+                                      child: Text(result.exception.toString()),
+                                    );
+                                  }
+
+                                  if (result.loading) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300],
+                                      highlightColor: Colors.grey[100],
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    );
+                                  }
+
+                                  var status = result.data['bookings_aggregate']
+                                      ['aggregate']['count'];
+
+                                  return CustomIconButton(
+                                    circleColor: IconColors.more,
+                                    txt: status.toString(),
+                                    buttonTitle: "Completed",
+                                    onTap: () {},
+                                  );
+                                },
+                              ),
+                              Query(
+                                options: QueryOptions(
                                     documentNode: gql(getCountBookings),
                                     pollInterval: 5,
                                     variables: {
@@ -366,18 +446,6 @@ class _HomeState extends State<Home> {
                                     onTap: () {},
                                   );
                                 },
-                              ),
-                              CustomIconButton(
-                                circleColor: IconColors.passbook,
-                                txt: "5",
-                                buttonTitle: "Upcoming",
-                                onTap: () {},
-                              ),
-                              CustomIconButton(
-                                circleColor: IconColors.more,
-                                txt: "5",
-                                buttonTitle: "Upcoming",
-                                onTap: () {},
                               ),
                             ],
                           ),
