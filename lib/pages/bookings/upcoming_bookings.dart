@@ -42,7 +42,7 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
             documentNode: gql(getAllBookings),
             pollInterval: 5,
             variables: {
-              'id': '1',
+              'id': _userId,
               'status': 'upcoming',
             }),
         builder: (QueryResult result,
