@@ -46,3 +46,38 @@ final getBookingByCourt = """
     }
   }	
 """;
+
+final getBookingById = """
+    query getBookingById(\$id: Int!){
+      bookings (where: {id: {_eq: \$id}}){
+        id
+        date
+        time_start
+        time_end
+        booking_status
+        total_price
+        order_id
+        qty
+    		court{
+          id
+          name
+          address
+ 					phone_number
+          latitude
+          longitude
+          price_per_hour
+          court_images {
+            id
+            name
+          }
+        }
+        user{
+          id
+          name
+          email
+          phone_number
+          address
+        }
+      }
+    }
+""";

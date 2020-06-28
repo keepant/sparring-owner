@@ -97,7 +97,7 @@ class _CompletedBookingsState extends State<CompletedBookings> {
                   pushNewScreen(
                     context,
                     screen: BookingDetails(
-                        //id: booking['id'],
+                        id: booking['id'],
                         ),
                     platformSpecific: false,
                     withNavBar: false,

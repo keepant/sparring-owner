@@ -42,7 +42,7 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
             documentNode: gql(getAllBookings),
             pollInterval: 5,
             variables: {
-              'id': _userId,
+              'id': '1',
               'status': 'upcoming',
             }),
         builder: (QueryResult result,
@@ -97,7 +97,7 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
                   pushNewScreen(
                     context,
                     screen: BookingDetails(
-                        //id: booking['id'],
+                        id: booking['id'],
                         ),
                     platformSpecific: false,
                     withNavBar: false,

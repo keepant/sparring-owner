@@ -95,7 +95,7 @@ class _CancelledBookingsState extends State<CancelledBookings> {
                   pushNewScreen(
                     context,
                     screen: BookingDetails(
-                        //id: booking['id'],
+                        id: booking['id'],
                         ),
                     platformSpecific: false,
                     withNavBar: false,

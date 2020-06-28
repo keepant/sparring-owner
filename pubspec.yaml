@@ -52,6 +52,7 @@ dependencies:
   dio: ^3.0.9
   dio_http_cache: ^0.2.6
   json_annotation: ^3.0.1
+  flutter_screenutil: ^2.1.0
 
 
 dev_dependencies:
