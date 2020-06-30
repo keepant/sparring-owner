@@ -8,13 +8,10 @@ final String getOwner = """
       phone_number
       address
       profile_picture
-      id_card_number
-      photo_id
-      selfie_with_id
       username
-      is_verified
       created_at
       account_status
+      docs_id
     }
   }
 """;

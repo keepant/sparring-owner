@@ -33,6 +33,17 @@ class Prefs {
     final SharedPreferences prefs = await _prefs;
     return prefs.setString('name', value);
   }
+
+
+  Future<String> getDocsId() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString('docsId') ?? null;
+  } 
+
+  Future<bool> setDocsId(String value) async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.setString('docsId', value);
+  }
   
   Future<bool> clearToken() async {
     final SharedPreferences prefs = await _prefs;

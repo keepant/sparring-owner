@@ -1,6 +1,12 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sparring_owner/api/api.dart';
+import 'package:sparring_owner/graphql/verify.dart';
 import 'package:sparring_owner/pages/home/home.dart';
+import 'package:sparring_owner/services/prefs.dart';
 
 class SelfieWithIDResult extends StatefulWidget {
   final String imagePath;
@@ -15,6 +21,28 @@ class SelfieWithIDResult extends StatefulWidget {
 }
 
 class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
+  SharedPreferences sharedPreferences;
+  String _userId;
+
+  _getUserId() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      _userId = (sharedPreferences.getString("userId") ?? '');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserId();
+  }
+
+  final FirebaseStorage _storage = FirebaseStorage(
+    storageBucket: 'gs://sparring-b92ed.appspot.com/',
+  );
+
+  StorageUploadTask uploadTask;
+
   bool popup = false;
 
   showPopup() {
@@ -183,32 +211,74 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 15.0),
-                            margin: EdgeInsets.only(top: 30.0),
-                            width: size.width - 90.0,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(180.0),
+                        GraphQLProvider(
+                          client: API.client,
+                          child: Mutation(
+                            options: MutationOptions(
+                              documentNode: gql(updateSelfieAndAccountStatus),
+                              update: (Cache cache, QueryResult result) {
+                                return cache;
+                              },
+                              onCompleted: (dynamic resultData) {
+                                print(resultData);
+                                // Flushbar(
+                                //   message: "ID Card saved!",
+                                //   margin: EdgeInsets.all(8),
+                                //   borderRadius: 8,
+                                //   duration: Duration(seconds: 2),
+                                // )..show(context);
+                              },
+                              onError: (error) => print(error),
                             ),
-                            child: Text(
-                              "Ok, I got it",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xffffffff)),
-                            ),
+                            builder:
+                                (RunMutation runMutation, QueryResult result) {
+                              return GestureDetector(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                                  margin: EdgeInsets.only(top: 30.0),
+                                  width: size.width - 90.0,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.circular(180.0),
+                                  ),
+                                  child: Text(
+                                    "Ok, I got it",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xffffffff),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () async {
+                                  String fileName =
+                                      "$_userId-selfieWithID-${DateTime.now()}.png";
+                                  String filePath = 'verify/$fileName';
+
+                                  runMutation({
+                                    'idUser': _userId,
+                                    'idDocs': await prefs.getDocsId(),
+                                    'file': fileName,
+                                  });
+
+                                  setState(() {
+                                    uploadTask = _storage
+                                        .ref()
+                                        .child(filePath)
+                                        .putFile(File(widget.imagePath));
+                                  });
+
+                                  pushNewScreen(
+                                    context,
+                                    screen: Home(),
+                                    platformSpecific: false,
+                                    withNavBar: true,
+                                  );
+                                },
+                              );
+                            },
                           ),
-                          onTap: () {
-                            pushNewScreen(
-                              context,
-                              screen: Home(),
-                              platformSpecific: false,
-                              withNavBar: true,
-                            );
-                          },
                         ),
                       ],
                     ),

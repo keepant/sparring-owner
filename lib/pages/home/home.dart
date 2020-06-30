@@ -54,9 +54,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _getUserId();
-    // if (_userId == null) {
-    //   _signOut();
-    // }
+    //_signOut();
   }
 
   Color getColorStatus(String status) {
@@ -111,6 +109,11 @@ class _HomeState extends State<Home> {
                 if (result.exception
                     .toString()
                     .contains('Could not verify JWT')) {
+                  return _signOut();
+                }
+
+                if (result.exception.toString().contains(
+                    'ClientException: Unhandled Failure Invalid argument(s)')) {
                   return _signOut();
                 }
 
@@ -180,7 +183,9 @@ class _HomeState extends State<Home> {
                                           owner['account_status']),
                                       icon: getIconStatus(
                                           owner['account_status']),
-                                      onTap: () {
+                                      onTap: () async {
+                                        await prefs.setDocsId(owner['docs_id']);
+
                                         showCupertinoModalBottomSheet(
                                           expand: true,
                                           context: context,

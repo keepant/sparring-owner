@@ -78,6 +78,11 @@ class _MoreState extends State<More> {
                   return _signOut();
                 }
 
+                if (result.exception.toString().contains(
+                    'ClientException: Unhandled Failure Invalid argument(s)')) {
+                  return _signOut();
+                }
+
                 if (result.hasException) {
                   print(result.exception.toString());
                   return Center(
