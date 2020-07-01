@@ -312,12 +312,27 @@ class _HomeState extends State<Home> {
                                     circleColor: IconColors.send,
                                     txt: totalCourt.toString(),
                                     buttonTitle: "Court",
-                                    onTap: () {
-                                      pushNewScreen(
-                                        context,
-                                        screen: Court(),
-                                        withNavBar: false,
-                                      );
+                                    onTap: () async {
+                                      await prefs.setDocsId(owner['docs_id']);
+                                      owner['account_status'] != "verified"
+                                          ? showCupertinoModalBottomSheet(
+                                              expand: true,
+                                              context: context,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              builder:
+                                                  (context, scrollController) =>
+                                                      Verification(
+                                                status: owner['account_status'],
+                                                scrollController:
+                                                    scrollController,
+                                              ),
+                                            )
+                                          : pushNewScreen(
+                                              context,
+                                              screen: Court(),
+                                              withNavBar: false,
+                                            );
                                     },
                                   );
                                 },

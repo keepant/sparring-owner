@@ -441,7 +441,9 @@ class _AddCourtState extends State<AddCourt> {
                     print(resultData);
                     pushNewScreen(
                       context,
-                      screen: Court(),
+                      screen: Court(
+                        accountStatus: "verified",
+                      ),
                       platformSpecific: true,
                       withNavBar: true,
                     );
