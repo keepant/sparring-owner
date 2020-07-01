@@ -10,8 +10,11 @@ import 'package:sparring_owner/graphql/owner.dart';
 import 'package:sparring_owner/pages/more/court/add_court.dart';
 
 class Court extends StatefulWidget {
+  final String accountStatus;
+
   Court({
     Key key,
+    this.accountStatus,
   }) : super(key: key);
 
   @override
@@ -69,10 +72,12 @@ class _CourtState extends State<Court> {
                 withNavBar: false,
               );
             },
-            icon: Icon(
-              Icons.add,
-              color: Colors.black54,
-            ),
+            icon: widget.accountStatus != "verified"
+                ? Container()
+                : Icon(
+                    Icons.add,
+                    color: Colors.black54,
+                  ),
           )
         ],
       ),
@@ -101,31 +106,39 @@ class _CourtState extends State<Court> {
 
             return _userId == null
                 ? Loading()
-                : courtList.length < 1
-                    ? emptyCourt()
-                    : Container(
-                        height: size.height,
-                        width: size.width,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff1eefc),
-                        ),
-                        child: SafeArea(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: courtList.length,
-                            itemBuilder: (context, index) {
-                              var court = courtList[index];
-                              var img = courtList[index]['court_images'][0];
-                              return CourtCard(
-                                onTap: () {},
-                                imgUrl: img['name'],
-                                title: court['name'],
-                                location: court['address'],
-                              );
-                            },
-                          ),
-                        ),
-                      );
+                : widget.accountStatus != "verified"
+                    ? VerificationStatus(
+                        img: "assets/img/not-verified.png",
+                        title: "Account not yet verified!",
+                        icon: FontAwesomeIcons.solidTimesCircle,
+                        color: Colors.red,
+                        subtitle: "Verify now to add court!",
+                      )
+                    : courtList.length < 1
+                        ? emptyCourt()
+                        : Container(
+                            height: size.height,
+                            width: size.width,
+                            decoration: BoxDecoration(
+                              color: Color(0xfff1eefc),
+                            ),
+                            child: SafeArea(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: courtList.length,
+                                itemBuilder: (context, index) {
+                                  var court = courtList[index];
+                                  var img = courtList[index]['court_images'][0];
+                                  return CourtCard(
+                                    onTap: () {},
+                                    imgUrl: img['name'],
+                                    title: court['name'],
+                                    location: court['address'],
+                                  );
+                                },
+                              ),
+                            ),
+                          );
           },
         ),
       ),
@@ -227,6 +240,97 @@ class _CourtState extends State<Court> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class VerificationStatus extends StatelessWidget {
+  final String img;
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color color;
+  final bool isVerified;
+
+  VerificationStatus({
+    Key key,
+    @required this.img,
+    @required this.subtitle,
+    @required this.title,
+    @required this.icon,
+    @required this.color,
+    this.isVerified = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return Container(
+      height: size.height,
+      width: size.width,
+      decoration: BoxDecoration(
+        color: Color(0xfff1eefc),
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    width: 150.0,
+                    height: 150.0,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(img),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          icon,
+                          color: color,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 50.0),
+                    child: Text(
+                      subtitle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16.0, height: 1.6),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

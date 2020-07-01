@@ -12,10 +12,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/graphql/court.dart';
-import 'package:sparring_owner/pages/more/court/court.dart';  
+import 'package:sparring_owner/pages/more/court/court.dart';
 import 'package:sparring_owner/utils/env.dart';
 
 class AddCourt extends StatefulWidget {
+  final String accountStatus;
+
+  AddCourt({
+    Key key,
+    this.accountStatus,
+  }) : super(key: key);
+
   @override
   _AddCourtState createState() => _AddCourtState();
 }
@@ -432,6 +439,12 @@ class _AddCourtState extends State<AddCourt> {
                   },
                   onCompleted: (dynamic resultData) {
                     print(resultData);
+                    pushNewScreen(
+                      context,
+                      screen: Court(),
+                      platformSpecific: true,
+                      withNavBar: true,
+                    );
                     Flushbar(
                       message: "Court saved!",
                       margin: EdgeInsets.all(8),

@@ -473,7 +473,28 @@ class _HomeState extends State<Home> {
                                   CustomRoundedButton(
                                     buttonText: "More",
                                     color: Colors.blue,
-                                    onTap: () {},
+                                    onTap: () async {
+                                      await prefs.setDocsId(owner['docs_id']);
+                                      owner['account_status'] != "verified"
+                                          ? showCupertinoModalBottomSheet(
+                                              expand: true,
+                                              context: context,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              builder:
+                                                  (context, scrollController) =>
+                                                      Verification(
+                                                status: owner['account_status'],
+                                                scrollController:
+                                                    scrollController,
+                                              ),
+                                            )
+                                          : pushNewScreen(
+                                              context,
+                                              screen: Court(),
+                                              withNavBar: false,
+                                            );
+                                    },
                                   ),
                                 ],
                               ),
@@ -546,7 +567,30 @@ class _HomeState extends State<Home> {
                                       result.data['owners'][0]['courts'];
 
                                   return courtList.length < 1
-                                      ? EmptyCourt()
+                                      ? EmptyCourt(onTap: () async {
+                                          await prefs
+                                              .setDocsId(owner['docs_id']);
+                                          owner['account_status'] != "verified"
+                                              ? showCupertinoModalBottomSheet(
+                                                  expand: true,
+                                                  context: context,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  builder: (context,
+                                                          scrollController) =>
+                                                      Verification(
+                                                    status:
+                                                        owner['account_status'],
+                                                    scrollController:
+                                                        scrollController,
+                                                  ),
+                                                )
+                                              : pushNewScreen(
+                                                  context,
+                                                  screen: AddCourt(),
+                                                  withNavBar: false,
+                                                );
+                                        })
                                       : ListView.builder(
                                           shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
@@ -621,8 +665,11 @@ class CourtListTile extends StatelessWidget {
 }
 
 class EmptyCourt extends StatelessWidget {
+  final GestureTapCallback onTap;
+
   const EmptyCourt({
     Key key,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -635,13 +682,7 @@ class EmptyCourt extends StatelessWidget {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: IconButton(
-            onPressed: () {
-              pushNewScreen(
-                context,
-                screen: AddCourt(),
-                withNavBar: false,
-              );
-            },
+            onPressed: onTap,
             icon: Icon(
               FontAwesomeIcons.plus,
               //color: Theme.of(context).primaryColor,
@@ -668,13 +709,7 @@ class CustomRoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: () {
-          pushNewScreen(
-            context,
-            screen: Court(),
-            withNavBar: false,
-          );
-        },
+        onTap: onTap,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 13.0, vertical: 7.0),
           decoration: BoxDecoration(

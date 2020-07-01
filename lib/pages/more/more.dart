@@ -188,7 +188,9 @@ class _MoreState extends State<More> {
                             onTap: () {
                               pushNewScreen(
                                 context,
-                                screen: Court(),
+                                screen: Court(
+                                  accountStatus: owner['account_status'],
+                                ),
                                 platformSpecific: true,
                                 withNavBar: false,
                               );
