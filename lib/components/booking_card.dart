@@ -1,5 +1,7 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sparring_owner/utils/env.dart';
 
 class BookingCard extends StatelessWidget {
   final String imgUrl;
@@ -55,7 +57,9 @@ class BookingCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
                           image: DecorationImage(
-                            image: NetworkImage(imgUrl),
+                            image: FirebaseImage(
+                              fbCourtURI + imgUrl,
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),

@@ -14,8 +14,9 @@ final addCourt = """
     \$img1: String!,
     \$img2: String!,
     \$img3: String!,
-    \$fas1: String!,
-    \$fas2: String!,
+    \$fas1: Int!,
+    \$fas2: Int!,
+    \$fas3: Int!,
   ){
     insert_court(
       objects: {
@@ -37,15 +38,25 @@ final addCourt = """
             {name: \$img3}
           ]
         }
-        court_facilities: {
+        court_facilities_pivots: {
           data: [
-            {name: \$fas1}
-            {name: \$fas2}
+            {facility_id: \$fas1}
+            {facility_id: \$fas2}
+            {facility_id: \$fas3}
           ]
         }
       }
     ){
       affected_rows
+    }
+  }
+""";
+
+final getCourtFacilities = """
+  query {
+    court_facilities{
+      id
+      name
     }
   }
 """;

@@ -1,4 +1,6 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sparring_owner/utils/env.dart';
 
 class CourtCard extends StatelessWidget {
   final String imgUrl;
@@ -40,7 +42,9 @@ class CourtCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
                           image: DecorationImage(
-                            image: NetworkImage(imgUrl),
+                            image: FirebaseImage(
+                              fbCourtURI + imgUrl,
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),

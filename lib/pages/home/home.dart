@@ -1,3 +1,4 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -15,6 +16,7 @@ import 'package:sparring_owner/pages/more/court/add_court.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
 import 'package:sparring_owner/services/auth.dart';
 import 'package:sparring_owner/services/prefs.dart';
+import 'package:sparring_owner/utils/env.dart';
 import 'package:sparring_owner/utils/utils.dart';
 
 class IconColors {
@@ -603,7 +605,9 @@ class CourtListTile extends StatelessWidget {
           width: 70,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(img),
+              image: FirebaseImage(
+                fbCourtURI + img,
+              ),
               fit: BoxFit.cover,
             ),
             borderRadius: BorderRadius.circular(8.0),
