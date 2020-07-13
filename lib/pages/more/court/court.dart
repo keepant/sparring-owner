@@ -8,6 +8,8 @@ import 'package:sparring_owner/components/court_card.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/graphql/owner.dart';
 import 'package:sparring_owner/pages/more/court/add_court.dart';
+import 'package:sparring_owner/pages/more/more.dart';
+import 'package:sparring_owner/router.dart';
 
 class Court extends StatefulWidget {
   final String accountStatus;
@@ -50,7 +52,7 @@ class _CourtState extends State<Court> {
             color: Colors.black54,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).popUntil(ModalRoute.withName("/"));
           },
         ),
         backgroundColor: Colors.white,
