@@ -272,7 +272,6 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                                   pushNewScreen(
                                     context,
                                     screen: Home(),
-                                    platformSpecific: false,
                                     withNavBar: true,
                                   );
                                 },

@@ -36,7 +36,7 @@ final getTotalIncome = """
   query getTotalIncome(\$id: String!){
     owners(where: {id: {_eq: \$id}}) {
       courts {
-        bookings_aggregate{
+        bookings_aggregate(where: {booking_status: {_eq: "completed"}}){
           aggregate{
             sum{
               total_price

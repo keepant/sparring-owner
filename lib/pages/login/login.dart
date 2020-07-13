@@ -2,6 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sparring_owner/components/bezier.dart';
 import 'package:sparring_owner/i18n.dart';
@@ -198,6 +199,8 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: 8,
               duration: Duration(seconds: 3),
             )..show(context);
+
+            OneSignal.shared.setExternalUserId(userId);
           } else {
             FocusScope.of(context).requestFocus(new FocusNode());
           }

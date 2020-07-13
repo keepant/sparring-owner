@@ -2,6 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparring_owner/api/api.dart';
@@ -220,6 +221,8 @@ class _MoreState extends State<More> {
                               platformSpecific: false,
                               withNavBar: false,
                             );
+
+                            OneSignal.shared.removeExternalUserId();
 
                             Flushbar(
                               message: "Logout successfully!",
