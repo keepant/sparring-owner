@@ -61,6 +61,7 @@ dependencies:
   multi_image_picker: ^4.6.7
   flutter_absolute_path: ^1.0.6
   firebase_image: ^0.1.6
+  flutter_statusbarcolor: ^0.2.3
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -227,6 +228,8 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                                 //   borderRadius: 8,
                                 //   duration: Duration(seconds: 2),
                                 // )..show(context);
+                                Navigator.of(context)
+                                    .popUntil(ModalRoute.withName("/"));
                               },
                               onError: (error) => print(error),
                             ),
@@ -268,12 +271,12 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                                         .child(filePath)
                                         .putFile(File(widget.imagePath));
                                   });
-
-                                  pushNewScreen(
-                                    context,
-                                    screen: Home(),
-                                    withNavBar: true,
-                                  );
+                                  Flushbar(
+                                    message: "Finishing...",
+                                    showProgressIndicator: true,
+                                    margin: EdgeInsets.all(8),
+                                    borderRadius: 8,
+                                  )..show(context);
                                 },
                               );
                             },

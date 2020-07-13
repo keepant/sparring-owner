@@ -180,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
 
             String userId = await auth.getUid();
             await prefs.setUserId(userId);
+            
             print("token: " + _token + "userid: " + userId);
 
             String displayName = await auth.getName();

@@ -108,16 +108,16 @@ class _HomeState extends State<Home> {
                   return Loading();
                 }
 
-                if (result.exception
-                    .toString()
-                    .contains('Could not verify JWT')) {
-                  return _signOut();
-                }
+                // if (result.exception
+                //     .toString()
+                //     .contains('Could not verify JWT')) {
+                //   return _signOut();
+                // }
 
-                if (result.exception.toString().contains(
-                    'ClientException: Unhandled Failure Invalid argument(s)')) {
-                  return _signOut();
-                }
+                // if (result.exception.toString().contains(
+                //     'ClientException: Unhandled Failure Invalid argument(s)')) {
+                //   return _signOut();
+                // }
 
                 if (result.hasException) {
                   return Center(
