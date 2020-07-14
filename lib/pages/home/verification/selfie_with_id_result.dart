@@ -6,7 +6,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/graphql/verify.dart';
-import 'package:sparring_owner/pages/home/home.dart';
 import 'package:sparring_owner/services/prefs.dart';
 
 class SelfieWithIDResult extends StatefulWidget {

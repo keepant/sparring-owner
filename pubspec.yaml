@@ -62,6 +62,8 @@ dependencies:
   flutter_absolute_path: ^1.0.6
   firebase_image: ^0.1.6
   flutter_statusbarcolor: ^0.2.3
+  url_launcher: ^5.5.0
+  package_info: ^0.4.1
 
 dev_dependencies:
   flutter_test:

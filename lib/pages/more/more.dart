@@ -9,6 +9,7 @@ import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/components/text_style.dart';
 import 'package:sparring_owner/graphql/owner.dart';
+import 'package:sparring_owner/pages/more/about.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
 import 'package:sparring_owner/pages/more/profile.dart';
 import 'package:sparring_owner/services/auth.dart';
@@ -200,9 +201,16 @@ class _MoreState extends State<More> {
                           height: 5.0,
                         ),
                         _profileItem(
-                          icon: FontAwesomeIcons.infoCircle,
-                          text: "About Us ",
-                        ),
+                            icon: FontAwesomeIcons.infoCircle,
+                            text: "About Us ",
+                            onTap: () {
+                              pushNewScreen(
+                                context,
+                                screen: AboutUs(),
+                                platformSpecific: false,
+                                withNavBar: false,
+                              );
+                            }),
                         SizedBox(
                           height: 5.0,
                         ),
