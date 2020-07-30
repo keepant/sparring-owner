@@ -8,7 +8,7 @@ import 'package:sparring_owner/services/auth_check.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  OneSignal.shared.init("1a92dc26-0954-4d02-aa1d-a8af75f218bb", iOSSettings: null);
+  OneSignal.shared.init("8e178fec-85ba-4f81-98c2-84cf1ecc954c", iOSSettings: null);
   OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
   
   runApp(MyApp());

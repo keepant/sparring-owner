@@ -45,7 +45,7 @@ dependencies:
   path_provider: ^1.6.11
   path: ^1.6.2
   shimmer: ^1.1.1
-  onesignal_flutter: ^2.5.0
+  onesignal_flutter: ^2.6.0
   bubble_tab_indicator: ^0.1.4
   fluttericon: ^1.0.7
   empty_widget: ^0.0.1
