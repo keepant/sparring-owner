@@ -1,12 +1,17 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/graphql/owner.dart';
 import 'package:intl/intl.dart';
 import 'package:sparring_owner/i18n.dart';
+import 'package:sparring_owner/pages/more/profile/crop_profile.dart';
+import 'package:sparring_owner/utils/env.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -37,13 +42,14 @@ class _ProfileState extends State<Profile> {
     _picked = widget.sex;
   }
 
+  final _picker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
       client: API.client,
       child: Query(
-        options: QueryOptions(
-            documentNode: gql(getOwner),
+        options: QueryOptions(documentNode: gql(getOwner),
             //pollInterval: 10,
             variables: {
               'id': widget.userId,
@@ -78,10 +84,10 @@ class _ProfileState extends State<Profile> {
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.black87,
+                  color: Colors.black,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).popUntil(ModalRoute.withName("/"));
                 },
               ),
               centerTitle: true,
@@ -96,11 +102,50 @@ class _ProfileState extends State<Profile> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0, top: 8.0),
                     child: Center(
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: owner['profile_picture'] == null
-                            ? AssetImage("assets/img/pp.png")
-                            : NetworkImage(owner['profile_picture']),
+                      child: InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () async {
+                          final pickedFile = await _picker.getImage(
+                              source: ImageSource.gallery);
+
+                          pushNewScreen(
+                            context,
+                            screen: CropProfile(
+                              file: pickedFile.path,
+                              name: owner['name'],
+                              id: owner['id'],
+                              gender: owner['sex'],
+                            ),
+                            withNavBar: false,
+                          );
+                        },
+                        child: Stack(
+                          children: <Widget>[
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage:
+                                  owner['profile_picture'] == null ||
+                                          owner['profile_picture'] == ''
+                                      ? AssetImage("assets/img/pp.png")
+                                      : FirebaseImage(
+                                          fbProfileUserURI +
+                                              owner['profile_picture'],
+                                        ),
+                            ),
+                            Positioned(
+                              top: 70,
+                              right: 0,
+                              bottom: 40.0,
+                              left: 75,
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.black,
+                                size: 25.0,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,10 +13,11 @@ import 'package:sparring_owner/graphql/owner.dart';
 import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/more/about.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
-import 'package:sparring_owner/pages/more/profile.dart';
+import 'package:sparring_owner/pages/more/profile/profile.dart';
 import 'package:sparring_owner/services/auth.dart';
 import 'package:sparring_owner/services/auth_check.dart';
 import 'package:sparring_owner/services/prefs.dart';
+import 'package:sparring_owner/utils/env.dart';
 
 class More extends StatefulWidget {
   More({
@@ -64,7 +66,7 @@ class _MoreState extends State<More> {
             child: Query(
               options: QueryOptions(
                 documentNode: gql(getOwner),
-                //pollInterval: 10,
+                pollInterval: 1,
                 variables: {
                   'id': _userId,
                 },
@@ -83,7 +85,13 @@ class _MoreState extends State<More> {
 
                 if (result.exception.toString().contains(
                     'ClientException: Unhandled Failure Invalid argument(s)')) {
-                  return _signOut();
+                  _signOut();
+                  return Flushbar(
+                    message: "Your session is over. Please login again.",
+                    margin: EdgeInsets.all(8),
+                    borderRadius: 8,
+                    duration: Duration(seconds: 2),
+                  )..show(context);
                 }
 
                 if (result.hasException) {
@@ -121,9 +129,14 @@ class _MoreState extends State<More> {
                             children: <Widget>[
                               CircleAvatar(
                                 radius: 50,
-                                child: owner["profile_picture"] == null
-                                    ? Image.asset('assets/img/pp.png')
-                                    : Image.network(owner["profile_picture"]),
+                                backgroundImage:
+                                    owner["profile_picture"] == null ||
+                                            owner["profile_picture"] == ''
+                                        ? Image.asset('assets/img/pp.png')
+                                        : FirebaseImage(
+                                            fbProfileUserURI +
+                                                owner['profile_picture'],
+                                          ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(

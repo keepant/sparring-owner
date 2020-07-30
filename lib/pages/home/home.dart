@@ -15,7 +15,6 @@ import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/home/verification.dart';
 import 'package:sparring_owner/pages/more/court/add_court.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
-import 'package:sparring_owner/services/auth.dart';
 import 'package:sparring_owner/services/prefs.dart';
 import 'package:sparring_owner/utils/env.dart';
 import 'package:sparring_owner/utils/utils.dart';
@@ -40,12 +39,6 @@ class _HomeState extends State<Home> {
   SharedPreferences sharedPreferences;
   String _userId;
 
-  _signOut() async {
-    await auth.signOut();
-
-    await prefs.clearToken();
-  }
-
   _getUserId() async {
     sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
@@ -57,7 +50,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _getUserId();
-    //_signOut();
   }
 
   Color getColorStatus(String status) {
@@ -208,68 +200,73 @@ class _HomeState extends State<Home> {
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                    child: Query(
-                                  options: QueryOptions(
-                                      documentNode: gql(getTotalIncome),
-                                      pollInterval: 5,
-                                      variables: {
-                                        'id': _userId,
-                                      }),
-                                  builder: (QueryResult result,
-                                      {FetchMore fetchMore,
-                                      VoidCallback refetch}) {
-                                    if (result.loading) {
-                                      return Shimmer.fromColors(
-                                        highlightColor: Colors.grey[100],
-                                        baseColor: Colors.grey[300],
-                                        child: Container(
-                                          height: 86,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          margin: EdgeInsets.fromLTRB(
-                                              31, 21, 31, 41),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            color: Colors.white,
+                                  highlightColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                  child: Query(
+                                    options: QueryOptions(
+                                        documentNode: gql(getTotalIncome),
+                                        pollInterval: 5,
+                                        variables: {
+                                          'id': _userId,
+                                        }),
+                                    builder: (QueryResult result,
+                                        {FetchMore fetchMore,
+                                        VoidCallback refetch}) {
+                                      if (result.loading) {
+                                        return Shimmer.fromColors(
+                                          highlightColor: Colors.grey[100],
+                                          baseColor: Colors.grey[300],
+                                          child: Container(
+                                            height: 86,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            margin: EdgeInsets.fromLTRB(
+                                                31, 21, 31, 41),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }
+                                        );
+                                      }
 
-                                    if (result.hasException) {
-                                      return Center(
-                                        child:
-                                            Text(result.exception.toString()),
-                                      );
-                                    }
+                                      if (result.hasException) {
+                                        return Center(
+                                          child:
+                                              Text(result.exception.toString()),
+                                        );
+                                      }
 
-                                    var income = 0;
-                                    var length = result
-                                        .data['owners'][0]['courts'].length;
+                                      var income = 0;
+                                      var length = result
+                                          .data['owners'][0]['courts'].length;
 
-                                    for (var i = 0; i < length; i++) {
-                                      var cos = result.data['owners'][0]
-                                                  ['courts'][i]
-                                              ['bookings_aggregate']
-                                          ['aggregate']['sum']['total_price'];
-
-                                      if (cos != null) {
-                                        income += result.data['owners'][0]
+                                      for (var i = 0; i < length; i++) {
+                                        var cos = result.data['owners'][0]
                                                     ['courts'][i]
                                                 ['bookings_aggregate']
                                             ['aggregate']['sum']['total_price'];
+
+                                        if (cos != null) {
+                                          income += result.data['owners'][0]
+                                                          ['courts'][i]
+                                                      ['bookings_aggregate']
+                                                  ['aggregate']['sum']
+                                              ['total_price'];
+                                        }
                                       }
-                                    }
 
-                                    //print("income: " + income.toString());
+                                      //print("income: " + income.toString());
 
-                                    return CardContainer(
-                                      caption: I18n.of(context).totalIncome,
-                                      label: formatCurrency(income),
-                                    );
-                                  },
-                                )),
+                                      return CardContainer(
+                                        caption: I18n.of(context).totalIncome,
+                                        label: formatCurrency(income),
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -314,26 +311,26 @@ class _HomeState extends State<Home> {
                                     txt: totalCourt.toString(),
                                     buttonTitle: I18n.of(context).court,
                                     onTap: () async {
-                                      await prefs.setDocsId(owner['docs_id']);
-                                      owner['account_status'] != "verified"
-                                          ? showCupertinoModalBottomSheet(
-                                              expand: true,
-                                              context: context,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              builder:
-                                                  (context, scrollController) =>
-                                                      Verification(
-                                                status: owner['account_status'],
-                                                scrollController:
-                                                    scrollController,
-                                              ),
-                                            )
-                                          : pushNewScreen(
-                                              context,
-                                              screen: Court(),
-                                              withNavBar: false,
-                                            );
+                                      // await prefs.setDocsId(owner['docs_id']);
+                                      // owner['account_status'] != "verified"
+                                      //     ? showCupertinoModalBottomSheet(
+                                      //         expand: true,
+                                      //         context: context,
+                                      //         backgroundColor:
+                                      //             Colors.transparent,
+                                      //         builder:
+                                      //             (context, scrollController) =>
+                                      //                 Verification(
+                                      //           status: owner['account_status'],
+                                      //           scrollController:
+                                      //               scrollController,
+                                      //         ),
+                                      //       )
+                                      //     : pushNewScreen(
+                                      //         context,
+                                      //         screen: Court(),
+                                      //         withNavBar: false,
+                                      //       );
                                     },
                                   );
                                 },
@@ -806,6 +803,8 @@ class CustomIconButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         onTap: onTap,
         child: Container(
           padding: EdgeInsets.all(5.0),
