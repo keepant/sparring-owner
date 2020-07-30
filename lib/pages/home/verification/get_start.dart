@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/home/verification/take_id.dart';
 
 class GetStart extends StatelessWidget {
@@ -30,7 +31,7 @@ class GetStart extends StatelessWidget {
                       },
                     ),
                     Text(
-                      "Verify your account",
+                      I18n.of(context).verifyYourAccount,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16.0,
@@ -63,7 +64,7 @@ class GetStart extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(bottom: 15.0),
                       child: Text(
-                        "Prepare your ID Card (KTP)",
+                        I18n.of(context).prepareIDCard,
                         style: TextStyle(
                             fontSize: 22.0, fontWeight: FontWeight.bold),
                       ),
@@ -71,7 +72,7 @@ class GetStart extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 50.0),
                       child: Text(
-                        "We need to verify your identitiy using your ID Card. Please make sure the ID Card is yours.",
+                        I18n.of(context).prepareIDCardDesc,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16.0, height: 1.6),
                       ),
@@ -94,7 +95,7 @@ class GetStart extends StatelessWidget {
                           borderRadius: BorderRadius.circular(180.0),
                         ),
                         child: Text(
-                          "I am ready, let\'s do it!",
+                          I18n.of(context).iamReady,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 16.0,

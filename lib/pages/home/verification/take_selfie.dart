@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/home/verification/selfie_result.dart';
 
 class TakeSelfie extends StatefulWidget {
@@ -70,7 +71,7 @@ class _TakeSelfieState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Take a picture of your self (selfie)'),
+        title: Text(I18n.of(context).takeSelfie),
       ),
       body: Container(
         child: SafeArea(

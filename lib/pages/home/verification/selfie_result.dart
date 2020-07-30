@@ -5,6 +5,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/graphql/verify.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/home/verification/take_selfie_with_id.dart';
 import 'package:sparring_owner/services/prefs.dart';
 
@@ -65,7 +66,7 @@ class _SelfieResultState extends State<SelfieResult> {
                       },
                     ),
                     Text(
-                      "Step 2/3",
+                      "${I18n.of(context).step} 2/3",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16.0,
@@ -80,7 +81,7 @@ class _SelfieResultState extends State<SelfieResult> {
               Container(
                 margin: EdgeInsets.only(bottom: 15.0),
                 child: Text(
-                  "Your photo",
+                  I18n.of(context).yourPhoto,
                   style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -139,7 +140,7 @@ class _SelfieResultState extends State<SelfieResult> {
                                 borderRadius: BorderRadius.circular(180.0),
                               ),
                               child: Text(
-                                "Save and continue",
+                                I18n.of(context).saveAndContinue,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16.0,

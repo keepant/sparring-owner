@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/bookings/cancelled_bookings.dart';
 import 'package:sparring_owner/pages/bookings/completed_bookings.dart';
 import 'package:sparring_owner/pages/bookings/upcoming_bookings.dart';
@@ -26,7 +27,7 @@ class _BookingsState extends State<Bookings> {
           backgroundColor: Colors.white,
           elevation: 0,
           title: Text(
-            "Bookings",
+            I18n.of(context).bookings,
             style: TextStyle(
               color: Colors.black54,
               fontWeight: FontWeight.bold,
@@ -47,13 +48,13 @@ class _BookingsState extends State<Bookings> {
             labelColor: Colors.black,
             tabs: [
               Tab(
-                text: "Upcoming",
+                text: I18n.of(context).upcomingText,
               ),
               Tab(
-                text: "Completed",
+                text: I18n.of(context).completedText,
               ),
               Tab(
-                text: "Cancelled",
+                text: I18n.of(context).cancelledText,
               ),
             ],
           ),

@@ -6,6 +6,7 @@ import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/graphql/owner.dart';
 import 'package:intl/intl.dart';
+import 'package:sparring_owner/i18n.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -43,7 +44,7 @@ class _ProfileState extends State<Profile> {
       child: Query(
         options: QueryOptions(
             documentNode: gql(getOwner),
-            pollInterval: 10,
+            //pollInterval: 10,
             variables: {
               'id': widget.userId,
             }),
@@ -67,7 +68,7 @@ class _ProfileState extends State<Profile> {
             backgroundColor: Colors.white,
             appBar: AppBar(
               title: Text(
-                "Profile",
+                I18n.of(context).profileText,
                 style: TextStyle(
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
@@ -104,38 +105,38 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   EditView(
-                    label: "Name",
+                    label: I18n.of(context).fullNameText,
                     textEditingController: _nameTxt..text = owner['name'],
                     keyboardType: TextInputType.text,
-                    hintText: "Full name",
-                    warningText: "Name cannot be empty!",
+                    hintText: I18n.of(context).fullNameText,
+                    warningText: I18n.of(context).fullNameEmptyWarningText,
                   ),
                   EditView(
-                    label: "Email",
+                    label: I18n.of(context).emailText,
                     textEditingController: _emailTxt..text = owner['email'],
                     keyboardType: TextInputType.emailAddress,
-                    hintText: "Email",
-                    warningText: "Email cannot be empty!",
+                    hintText: I18n.of(context).emailText,
+                    warningText: I18n.of(context).emailEmptyWarningText,
                     enabled: false,
                   ),
                   _radioBtn(),
                   EditView(
-                    label: "Phone number",
+                    label: I18n.of(context).phoneNumber,
                     textEditingController: _phoneTxt
                       ..text = owner['phone_number'],
                     keyboardType: TextInputType.number,
-                    hintText: "Phone number",
-                    warningText: "Phone number cannot be empty!",
+                    hintText: I18n.of(context).phoneNumber,
+                    warningText: I18n.of(context).phoneNumberEmptyWarningText,
                   ),
                   EditView(
-                    label: "Address",
+                    label: I18n.of(context).address,
                     textEditingController: _addressTxt..text = owner['address'],
                     keyboardType: TextInputType.text,
-                    hintText: "Address",
-                    warningText: "Address cannot be empty!",
+                    hintText: I18n.of(context).address,
+                    warningText: I18n.of(context).addressEmptyWarningText,
                   ),
                   FieldView(
-                    label: "Joined",
+                    label: I18n.of(context).joinedText,
                     text: new DateFormat.yMMMMd('en_US')
                         .format(DateTime.parse(owner['created_at']))
                         .toString(),
@@ -153,7 +154,7 @@ class _ProfileState extends State<Profile> {
                         onCompleted: (dynamic resultData) {
                           print(resultData);
                           Flushbar(
-                            message: "Data saved!",
+                            message: I18n.of(context).dataSavedText,
                             margin: EdgeInsets.all(8),
                             borderRadius: 8,
                             duration: Duration(seconds: 2),
@@ -185,7 +186,7 @@ class _ProfileState extends State<Profile> {
                               });
                               FocusScope.of(context).unfocus();
                               Flushbar(
-                                message: "Saving changes..",
+                                message: I18n.of(context).savingChangesText,
                                 showProgressIndicator: true,
                                 margin: EdgeInsets.all(8),
                                 borderRadius: 8,
@@ -195,7 +196,7 @@ class _ProfileState extends State<Profile> {
                           },
                           color: Theme.of(context).primaryColor,
                           child: Text(
-                            "Save",
+                            I18n.of(context).saveText,
                             style: TextStyle(
                               fontSize: 15,
                               color: Colors.white,
@@ -219,7 +220,7 @@ class _ProfileState extends State<Profile> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text("Sex"),
+          child: Text(I18n.of(context).genderText),
         ),
         RadioButtonGroup(
           orientation: GroupedButtonsOrientation.HORIZONTAL,

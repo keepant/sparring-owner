@@ -7,6 +7,7 @@ import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/court_card.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/graphql/owner.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/more/court/add_court.dart';
 
 class Court extends StatefulWidget {
@@ -55,7 +56,7 @@ class _CourtState extends State<Court> {
         ),
         backgroundColor: Colors.white,
         title: Text(
-          "Court",
+          I18n.of(context).court,
           style: TextStyle(
             color: Colors.black54,
             fontWeight: FontWeight.bold,
@@ -109,10 +110,10 @@ class _CourtState extends State<Court> {
                 : widget.accountStatus != "verified"
                     ? VerificationStatus(
                         img: "assets/img/not-verified.png",
-                        title: "Account not yet verified!",
+                        title: I18n.of(context).notTitle,
                         icon: FontAwesomeIcons.solidTimesCircle,
                         color: Colors.red,
-                        subtitle: "Verify now to add court!",
+                        subtitle: I18n.of(context).verfiyToAddCourt,
                       )
                     : courtList.length < 1
                         ? emptyCourt()
@@ -177,7 +178,7 @@ class _CourtState extends State<Court> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "You don\'t have any court yet!",
+                        I18n.of(context).dontHaveCourtText,
                         style: TextStyle(
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold,
@@ -198,7 +199,7 @@ class _CourtState extends State<Court> {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 50.0),
                   child: Text(
-                    "Add your court to manage",
+                    I18n.of(context).addCourtToManage,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16.0, height: 1.6),
                   ),
@@ -217,7 +218,7 @@ class _CourtState extends State<Court> {
                             borderRadius: BorderRadius.circular(180.0),
                           ),
                           child: Text(
-                            "Add court now!",
+                            I18n.of(context).addCourt,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16.0,
@@ -300,14 +301,18 @@ class VerificationStatus extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          title,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          width: MediaQuery.of(context).size.width - 120,
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            overflow: TextOverflow.clip,
                           ),
-                          textAlign: TextAlign.center,
-                          softWrap: true,
                         ),
                         SizedBox(
                           width: 10,

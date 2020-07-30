@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:sparring_owner/components/text_style.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/utils/navigation.dart';
 
 class AboutUs extends StatefulWidget {
@@ -65,10 +66,16 @@ class _AboutUsState extends State<AboutUs> {
                         size: 17.0,
                         color: Colors.black,
                       ),
-                      NormalText(
-                        text: "application to find futsal court and opponents",
-                        color: Colors.grey,
-                        size: 14.0,
+                      Container(
+                        width: MediaQuery.of(context).size.width - 140,
+                        child: Text(
+                          I18n.of(context).descAppText,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14.0,
+                          ),
+                          overflow: TextOverflow.clip,
+                        ),
                       ),
                     ],
                   ),
@@ -80,7 +87,7 @@ class _AboutUsState extends State<AboutUs> {
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: Text(
-                "</> with \u2764️ by keepant",
+                "</> ${I18n.of(context).withText} \u2764️ by keepant",
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
@@ -132,7 +139,7 @@ class _AboutUsState extends State<AboutUs> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Text(
-          "App Version ${_packageInfo.version}",
+          "${I18n.of(context).appVersionText} ${_packageInfo.version}",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w600,

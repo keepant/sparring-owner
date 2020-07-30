@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/graphql/court.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
 import 'package:sparring_owner/utils/env.dart';
 
@@ -81,8 +82,8 @@ class _AddCourtState extends State<AddCourt> {
         materialOptions: MaterialOptions(
           actionBarColor: "#FF5722",
           statusBarColor: "#FF5722",
-          actionBarTitle: "Pick court images",
-          allViewTitle: "All Photos",
+          actionBarTitle: I18n.of(context).pickCourtImages,
+          allViewTitle: I18n.of(context).allPhotos,
           useDetailsView: false,
           selectCircleStrokeColor: "#000000",
         ),
@@ -114,7 +115,7 @@ class _AddCourtState extends State<AddCourt> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "Add court",
+          I18n.of(context).addCourt,
           style: TextStyle(
             color: Colors.black54,
             fontWeight: FontWeight.bold,
@@ -143,7 +144,7 @@ class _AddCourtState extends State<AddCourt> {
             children: <Widget>[
               FormBuilderTextField(
                 attribute: "name",
-                decoration: InputDecoration(labelText: "Name"),
+                decoration: InputDecoration(labelText: I18n.of(context).name),
                 controller: _nameTxt,
                 validators: [
                   FormBuilderValidators.required(),
@@ -151,7 +152,8 @@ class _AddCourtState extends State<AddCourt> {
               ),
               FormBuilderTextField(
                 attribute: "address",
-                decoration: InputDecoration(labelText: "Address"),
+                decoration:
+                    InputDecoration(labelText: I18n.of(context).address),
                 controller: _addressTxt,
                 validators: [
                   FormBuilderValidators.required(),
@@ -159,19 +161,21 @@ class _AddCourtState extends State<AddCourt> {
               ),
               FormBuilderTextField(
                 attribute: "phone_number",
-                decoration: InputDecoration(labelText: "Phone Number"),
+                decoration:
+                    InputDecoration(labelText: I18n.of(context).phoneNumber),
                 keyboardType: TextInputType.number,
                 controller: _phoneTxt,
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(
-                      errorText: "Phone number must be a numeric!"),
+                      errorText: I18n.of(context).phoneMustNumeric),
                 ],
               ),
               FormBuilderDropdown(
                 attribute: "open_day",
-                decoration: InputDecoration(labelText: "Open day"),
-                hint: Text('Select Open day'),
+                decoration:
+                    InputDecoration(labelText: I18n.of(context).openDayText),
+                hint: Text(I18n.of(context).selectOpenDay),
                 validators: [FormBuilderValidators.required()],
                 onChanged: (value) {
                   setState(() {
@@ -193,8 +197,9 @@ class _AddCourtState extends State<AddCourt> {
               ),
               FormBuilderDropdown(
                 attribute: "closed_day",
-                decoration: InputDecoration(labelText: "Closed day"),
-                hint: Text('Select closed day'),
+                decoration:
+                    InputDecoration(labelText: I18n.of(context).closedDayText),
+                hint: Text(I18n.of(context).selectClosedDay),
                 validators: [FormBuilderValidators.required()],
                 onChanged: (value) {
                   setState(() {
@@ -216,8 +221,9 @@ class _AddCourtState extends State<AddCourt> {
               ),
               FormBuilderDropdown(
                 attribute: "open_hour",
-                decoration: InputDecoration(labelText: "Open hour"),
-                hint: Text('Select open hour'),
+                decoration:
+                    InputDecoration(labelText: I18n.of(context).openHourText),
+                hint: Text(I18n.of(context).selectOpenHour),
                 validators: [FormBuilderValidators.required()],
                 onChanged: (value) {
                   setState(() {
@@ -258,8 +264,9 @@ class _AddCourtState extends State<AddCourt> {
               ),
               FormBuilderDropdown(
                 attribute: "closed_hour",
-                decoration: InputDecoration(labelText: "Closed hour"),
-                hint: Text('Select closed hour'),
+                decoration:
+                    InputDecoration(labelText: I18n.of(context).closedHourText),
+                hint: Text(I18n.of(context).selectClosedHour),
                 validators: [FormBuilderValidators.required()],
                 onChanged: (value) {
                   setState(() {
@@ -300,37 +307,36 @@ class _AddCourtState extends State<AddCourt> {
               ),
               FormBuilderTextField(
                 attribute: "price",
-                decoration: InputDecoration(labelText: "Price per hour"),
+                decoration:
+                    InputDecoration(labelText: I18n.of(context).pricePerHour),
                 keyboardType: TextInputType.number,
                 controller: _priceTxt,
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(
-                      errorText: "Price must be a numeric!"),
+                      errorText: I18n.of(context).priceMustNumeric),
                 ],
               ),
               FormBuilderTextField(
                 attribute: "latitude",
-                decoration:
-                    InputDecoration(labelText: "Latitude (Location on maps)"),
+                decoration: InputDecoration(labelText: "Latitude"),
                 keyboardType: TextInputType.number,
                 controller: _latitudeTxt,
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(
-                      errorText: "Latitude must be a numeric!"),
+                      errorText: I18n.of(context).latitudeMustNumeric),
                 ],
               ),
               FormBuilderTextField(
                 attribute: "Longitude",
-                decoration:
-                    InputDecoration(labelText: "Longitude (Location on maps)"),
+                decoration: InputDecoration(labelText: "Longitude"),
                 keyboardType: TextInputType.number,
                 controller: _longitudeTxt,
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.numeric(
-                      errorText: "Longitude must be a numeric!"),
+                      errorText: I18n.of(context).longitudeMustNumeric),
                 ],
               ),
               Query(
@@ -396,8 +402,8 @@ class _AddCourtState extends State<AddCourt> {
                   List facilities = result.data['court_facilities'];
 
                   return FormBuilderCheckboxList(
-                    decoration:
-                        InputDecoration(labelText: "Select court facility "),
+                    decoration: InputDecoration(
+                        labelText: I18n.of(context).selectCourtFacility),
                     attribute: "facility",
                     onChanged: (value) {
                       facility = value;
@@ -414,7 +420,7 @@ class _AddCourtState extends State<AddCourt> {
               SizedBox(
                 height: 10,
               ),
-              Text("Court images"),
+              Text(I18n.of(context).courtImages),
               IconButton(
                 icon: Icon(
                   Icons.add_a_photo,
@@ -448,7 +454,7 @@ class _AddCourtState extends State<AddCourt> {
                       withNavBar: true,
                     );
                     Flushbar(
-                      message: "Court saved!",
+                      message: I18n.of(context).courtSaved,
                       margin: EdgeInsets.all(8),
                       borderRadius: 8,
                       duration: Duration(seconds: 2),
@@ -533,7 +539,7 @@ class _AddCourtState extends State<AddCourt> {
                       if (_fbKey.currentState.validate()) {
                         FocusScope.of(context).unfocus();
                         Flushbar(
-                          message: "Saving court..",
+                          message: I18n.of(context).savingCourt,
                           showProgressIndicator: true,
                           margin: EdgeInsets.all(8),
                           borderRadius: 8,
@@ -542,7 +548,7 @@ class _AddCourtState extends State<AddCourt> {
                     },
                     color: Theme.of(context).primaryColor,
                     child: Text(
-                      "Save",
+                      I18n.of(context).saveText,
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.white,
@@ -562,14 +568,17 @@ class _AddCourtState extends State<AddCourt> {
     return GridView.count(
       shrinkWrap: true,
       crossAxisCount: 3,
-      children: List.generate(images.length, (index) {
-        Asset asset = images[index];
-        return AssetThumb(
-          asset: asset,
-          width: 200,
-          height: 200,
-        );
-      }),
+      children: List.generate(
+        images.length,
+        (index) {
+          Asset asset = images[index];
+          return AssetThumb(
+            asset: asset,
+            width: 200,
+            height: 200,
+          );
+        },
+      ),
     );
   }
 }

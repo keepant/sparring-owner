@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/home/home.dart';
 import 'package:sparring_owner/pages/home/verification/get_start.dart';
 
@@ -37,29 +38,27 @@ class Verification extends StatelessWidget {
         child: status == 'verified'
             ? VerificationStatus(
                 img: "assets/img/verified-account.png",
-                title: "Horray your account is verified!",
+                title: I18n.of(context).verifiedTitle,
                 icon: FontAwesomeIcons.solidCheckCircle,
                 color: Colors.green,
                 isVerified: true,
-                subtitle:
-                    "Now you can using full feature of our app. Take a adventure of it!",
+                subtitle: I18n.of(context).verifiedSubtitle,
               )
             : status == 'process'
                 ? VerificationStatus(
                     img: "assets/img/onprocess.png",
-                    title: "Yeeyy your account under review!",
+                    title: I18n.of(context).processTitle,
                     icon: FontAwesomeIcons.history,
                     color: Colors.blue,
                     isVerified: true,
-                    subtitle:
-                        "Please wait our team to verify your information. It'\s takes 1-3 work days.",
+                    subtitle: I18n.of(context).processSubtitle,
                   )
                 : VerificationStatus(
                     img: "assets/img/not-verified.png",
-                    title: "Oh no! Your account not verified yet!",
+                    title: I18n.of(context).notTitle,
                     icon: FontAwesomeIcons.solidTimesCircle,
                     color: Colors.red,
-                    subtitle: "Verify now to freely access our feature!",
+                    subtitle: I18n.of(context).notSubtitle,
                   ),
       ),
     );
@@ -120,14 +119,18 @@ class VerificationStatus extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          title,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
+                        Container(
+                          width: MediaQuery.of(context).size.width - 120,
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            overflow: TextOverflow.clip,
                           ),
-                          textAlign: TextAlign.center,
-                          softWrap: true,
                         ),
                         SizedBox(
                           width: 10,
@@ -162,7 +165,7 @@ class VerificationStatus extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(180.0),
                                   ),
                                   child: Text(
-                                    "Verify now!",
+                                    I18n.of(context).verifyNow,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 16.0,

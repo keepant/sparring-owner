@@ -8,8 +8,9 @@ import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/booking_card.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/graphql/bookings.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/bookings/booking_details.dart';
-import 'package:intl/intl.dart';
+import 'package:sparring_owner/utils/utils.dart';
 
 class CompletedBookings extends StatefulWidget {
   @override
@@ -59,8 +60,8 @@ class _CompletedBookingsState extends State<CompletedBookings> {
 
           if (result.data['bookings'].length == 0) {
             return EmptyListWidget(
-              title: 'No bookings',
-              subTitle: 'No completed bookings available yet',
+              title: I18n.of(context).noBookingsText,
+              subTitle: I18n.of(context).noCompletedBookingsText,
               image: null,
               packageImage: PackageImage.Image_4,
             );
@@ -79,17 +80,9 @@ class _CompletedBookingsState extends State<CompletedBookings> {
                 imgUrl: img['name'],
                 title: court['name'],
                 location: court['address'],
-                date: new DateFormat.yMMMMd('en_US')
-                    .format(DateTime.parse(booking['date']))
-                    .toString(),
-                timeStart: new DateFormat.Hm()
-                    .format(DateTime.parse(
-                        booking['date'] + ' ' + booking['time_start']))
-                    .toString(),
-                timeEnd: new DateFormat.Hm()
-                    .format(DateTime.parse(
-                        booking['date'] + ' ' + booking['time_end']))
-                    .toString(),
+                date: formatDate(booking['date']),
+                timeStart: formatTime(booking['time_start']),
+                timeEnd: formatTime(booking['time_end']),
                 icon: FontAwesomeIcons.calendarAlt,
                 status: booking['booking_status'].toUpperCase(),
                 color: Colors.blue,

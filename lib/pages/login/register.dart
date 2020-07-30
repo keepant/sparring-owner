@@ -78,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
             ),
-            Text("Back",
+            Text(I18n.of(context).back,
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
           ],
         ),
@@ -131,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
         FocusScope.of(context).unfocus();
         if (_formKey.currentState.validate()) {
           Flushbar(
-            message: "Loading...",
+            message: I18n.of(context).loading,
             showProgressIndicator: true,
             margin: EdgeInsets.all(8),
             borderRadius: 8,
@@ -159,8 +159,8 @@ class _RegisterPageState extends State<RegisterPage> {
             );
 
             Flushbar(
-              title: "Register successfully!",
-              message: "Please login to access your account.",
+              title: I18n.of(context).registerSuccessText,
+              message: I18n.of(context).descRegisterSuccessText,
               margin: EdgeInsets.all(8),
               duration: Duration(seconds: 3),
               borderRadius: 8,
@@ -191,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         child: Text(
-          "Register now",
+          I18n.of(context).registerText,
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
@@ -207,7 +207,7 @@ class _RegisterPageState extends State<RegisterPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Already have account? ",
+            I18n.of(context).questionHaveAccountText,
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
           SizedBox(
@@ -219,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   MaterialPageRoute(builder: (context) => LoginPage()));
             },
             child: Text(
-              "Login",
+              I18n.of(context).login,
               style: TextStyle(
                 color: Color(0xfff79c4f),
                 fontSize: 13,
@@ -252,24 +252,24 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Column(
         children: <Widget>[
           _entryField(
-            "Full name",
+            I18n.of(context).fullNameText,
             _fullNameControl,
             hint: "John Mayer",
             keyboardType: TextInputType.text,
-            warningText: "Full name can\'t be empty!",
+            warningText: I18n.of(context).fullNameEmptyWarningText,
           ),
           _entryField(
-            "Email",
+            I18n.of(context).emailText,
             _emailControl,
             hint: "John@mayer.me",
             keyboardType: TextInputType.emailAddress,
-            warningText: "Email can't be empty!",
+            warningText: I18n.of(context).emailEmptyWarningText,
           ),
           _entryField(
-            "Password",
+            I18n.of(context).passwordText,
             _passwdControl,
             isPassword: _isHidePassword,
-            warningText: "Password can\'t be empty!",
+            warningText: I18n.of(context).passwordEmptyWarningText,
             suffixIcon: GestureDetector(
               onTap: () {
                 _togglePasswordVisibility();

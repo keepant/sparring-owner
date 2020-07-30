@@ -5,6 +5,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/graphql/verify.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/home/verification/take_selfie.dart';
 import 'package:sparring_owner/services/prefs.dart';
 
@@ -65,7 +66,7 @@ class _IDCardResultState extends State<IDCardResult> {
                       },
                     ),
                     Text(
-                      "Step 1/3",
+                      "${I18n.of(context).step} 1/3",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16.0,
@@ -80,7 +81,7 @@ class _IDCardResultState extends State<IDCardResult> {
               Container(
                 margin: EdgeInsets.only(bottom: 15.0),
                 child: Text(
-                  "Your ID Card",
+                  I18n.of(context).yourIDCard,
                   style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -97,10 +98,6 @@ class _IDCardResultState extends State<IDCardResult> {
                       width: size.width - 90.0,
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 13.0),
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.circular(10.0),
-                      //   border: Border.all(color: Colors.black12),
-                      // ),
                       child: Container(
                         width: size.width - 210,
                         child: Image.file(
@@ -139,7 +136,7 @@ class _IDCardResultState extends State<IDCardResult> {
                                 borderRadius: BorderRadius.circular(180.0),
                               ),
                               child: Text(
-                                "Save and continue",
+                                I18n.of(context).saveAndContinue,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16.0,

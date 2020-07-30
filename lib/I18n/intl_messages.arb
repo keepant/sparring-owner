@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-06-18T12:14:39.890863",
+  "@@last_modified": "2020-07-30T09:50:20.056678",
   "hello": "Hello, World",
   "@hello": {
     "description": "Hello world text",
@@ -9,6 +9,624 @@
   "title": "Sparring Owner",
   "@title": {
     "description": "Title application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bookingDetail": "Booking details",
+  "@bookingDetail": {
+    "description": "booking details text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bookingInfo": "Booking info",
+  "@bookingInfo": {
+    "description": "booking info text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "name": "Name",
+  "@name": {
+    "description": "name text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "phoneNumber": "Phone number",
+  "@phoneNumber": {
+    "description": "phone number text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "address": "Address",
+  "@address": {
+    "description": "address text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "paymentDetails": "Payment details",
+  "@paymentDetails": {
+    "description": "payment details text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "paymentMethod": "Payment method",
+  "@paymentMethod": {
+    "description": "payment method text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "totalPrice": "Total price",
+  "@totalPrice": {
+    "description": "total price text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "upcomingText": "Upcoming",
+  "@upcomingText": {
+    "description": "upcoming text on tab bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "completedText": "Completed",
+  "@completedText": {
+    "description": "competed text on tab bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancelledText": "Cancelled",
+  "@cancelledText": {
+    "description": "cancelled text on tab bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bookings": "Bookings",
+  "@bookings": {
+    "description": "bookings text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noBookingsText": "No bookings",
+  "@noBookingsText": {
+    "description": "no booking text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noCancelledBookingsText": "No cancelled bookings available yet",
+  "@noCancelledBookingsText": {
+    "description": "no cancelled bookings text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noCompletedBookingsText": "No completed bookings available yet",
+  "@noCompletedBookingsText": {
+    "description": "no completed bookings text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noUpcomingBookingsText": "No upcoming bookings available yet",
+  "@noUpcomingBookingsText": {
+    "description": "no upcoming bookings text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "verifyYourAccount": "Verify your account",
+  "@verifyYourAccount": {
+    "description": "verifyYourAccount text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "prepareIDCard": "Prepare your ID Card (KTP)",
+  "@prepareIDCard": {
+    "description": "prepareIDCard text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "prepareIDCardDesc": "We need to verify your identitiy using your ID Card. Please make sure the ID Card is yours.",
+  "@prepareIDCardDesc": {
+    "description": "prepareIDCardDesc text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iamReady": "I am ready, let's do it!",
+  "@iamReady": {
+    "description": "iamReady text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "step": "Step",
+  "@step": {
+    "description": "step text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yourIDCard": "Your ID Card",
+  "@yourIDCard": {
+    "description": "yourIDCard text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "saveAndContinue": "Save and continue",
+  "@saveAndContinue": {
+    "description": "saveAndContinue text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yourPhoto": "Your photo",
+  "@yourPhoto": {
+    "description": "Your photo text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "resutlSelfieWithID": "Result your selfie with ID",
+  "@resutlSelfieWithID": {
+    "description": "resutlSelfieWithID text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "finish": "Finish",
+  "@finish": {
+    "description": "finish text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "congratulation": "Congratulations!",
+  "@congratulation": {
+    "description": "congratulation text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nowRegistered": "Now you are registered",
+  "@nowRegistered": {
+    "description": "nowRegistered text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pleaseWait": "Please wait our admin to verify your information. It's takes 1-3 work days.",
+  "@pleaseWait": {
+    "description": "pleaseWait text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "okGotIt": "Ok, I got it",
+  "@okGotIt": {
+    "description": "okGotIt text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "finishing": "Finishing...",
+  "@finishing": {
+    "description": "finishing text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "takeIdCard": "Take a picture of your ID card",
+  "@takeIdCard": {
+    "description": "takeIdCard text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "takeSelfie": "Take a picture of your self (selfie)",
+  "@takeSelfie": {
+    "description": "takeSelfie text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loading": "Loading",
+  "@loading": {
+    "description": "loading text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selfieWIthID": "Selfie with ID Card",
+  "@selfieWIthID": {
+    "description": "selfieWIthID text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "totalIncome": "Total income",
+  "@totalIncome": {
+    "description": "totalIncome text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "court": "Court",
+  "@court": {
+    "description": "court text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yourCourt": "Your court",
+  "@yourCourt": {
+    "description": "yourCourt text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "more": "More",
+  "@more": {
+    "description": "more text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dontHaveCourtText": "You don't have any court yet!",
+  "@dontHaveCourtText": {
+    "description": "dontHaveCourt text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pleaseAddCourt": "\"Please add to see your court here",
+  "@pleaseAddCourt": {
+    "description": "pleaseAddCourt text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "verifiedTitle": "Horray your account is verified!",
+  "@verifiedTitle": {
+    "description": "verifiedTitle text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "verifiedSubtitle": "Now you can using full feature of our app. Take a adventure of it!",
+  "@verifiedSubtitle": {
+    "description": "verifiedSubtitle text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "processTitle": "Yeeyy your account under review!",
+  "@processTitle": {
+    "description": "processTitle text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "processSubtitle": "Please wait our team to verify your information. It's takes 1-3 work days.",
+  "@processSubtitle": {
+    "description": "processSubtitle text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notTitle": "Oh no! Your account not verified yet!",
+  "@notTitle": {
+    "description": "notTitle text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notSubtitle": "Verify now to freely access our feature!",
+  "@notSubtitle": {
+    "description": "notSubtitle text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "verifyNow": "Verify now!",
+  "@verifyNow": {
+    "description": "verifyNow text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "back": "Back",
+  "@back": {
+    "description": "back text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginSuccessText": "Login successfully!",
+  "@loginSuccessText": {
+    "description": "login success text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "login": "Login",
+  "@login": {
+    "description": "login text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "orText": "or",
+  "@orText": {
+    "description": "or text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "questionAccountText": "Don't have an account?",
+  "@questionAccountText": {
+    "description": "question account text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "registerText": "Register now",
+  "@registerText": {
+    "description": "register text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailText": "Email",
+  "@emailText": {
+    "description": "email label text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordText": "Password",
+  "@passwordText": {
+    "description": "password text text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordEmptyWarningText": "Password can't be empty!",
+  "@passwordEmptyWarningText": {
+    "description": "password empty warning text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailEmptyWarningText": "Email can't be empty!",
+  "@emailEmptyWarningText": {
+    "description": "email empty warning text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "registerSuccessText": "Register successfully!",
+  "@registerSuccessText": {
+    "description": "register success text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "descRegisterSuccessText": "Please login to access your account",
+  "@descRegisterSuccessText": {
+    "description": "desc register success text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "questionHaveAccountText": "Already have an account?",
+  "@questionHaveAccountText": {
+    "description": "question have account text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fullNameText": "Full name",
+  "@fullNameText": {
+    "description": "full name text label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fullNameEmptyWarningText": "Full name can't be empty!",
+  "@fullNameEmptyWarningText": {
+    "description": "fullName empty warning text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pickCourtImages": "Pick court images",
+  "@pickCourtImages": {
+    "description": "pickCourtImages text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "allPhotos": "All Photos",
+  "@allPhotos": {
+    "description": "allPhotos text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addCourt": "Add court",
+  "@addCourt": {
+    "description": "addCourt text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "phoneMustNumeric": "Phone number must be a numeric!",
+  "@phoneMustNumeric": {
+    "description": "phoneMustNumeric text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "openDayText": "Open day",
+  "@openDayText": {
+    "description": "open day text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "closedDayText": "Closed day",
+  "@closedDayText": {
+    "description": "closed day text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "openHourText": "Open hour",
+  "@openHourText": {
+    "description": "open hour text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "closedHourText": "Closed hour",
+  "@closedHourText": {
+    "description": "closed hour text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectOpenDay": "Select open day",
+  "@selectOpenDay": {
+    "description": "selectOpenDay text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectClosedDay": "Select closed day",
+  "@selectClosedDay": {
+    "description": "selectClosedDay text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectOpenHour": "Select open hour",
+  "@selectOpenHour": {
+    "description": "selectOpenHour text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectClosedHour": "Select closed hour",
+  "@selectClosedHour": {
+    "description": "selectClosedHour text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pricePerHour": "Price per hour",
+  "@pricePerHour": {
+    "description": "pricePerHour text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "priceMustNumeric": "Price must be a numeric!",
+  "@priceMustNumeric": {
+    "description": "priceMustNumeric text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "latitudeMustNumeric": "Latitude must be a numeric!",
+  "@latitudeMustNumeric": {
+    "description": "latitudeMustNumeric text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "longitudeMustNumeric": "Longitude must be a numeric!",
+  "@longitudeMustNumeric": {
+    "description": "longitudeMustNumeric text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectCourtFacility": "Select court facility",
+  "@selectCourtFacility": {
+    "description": "selectCourtFacility text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "courtImages": "Court images",
+  "@courtImages": {
+    "description": "courtImages text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "courtSaved": "Court saved!",
+  "@courtSaved": {
+    "description": "courtSaved text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "saveText": "Save",
+  "@saveText": {
+    "description": "save text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "savingCourt": "Saving court..",
+  "@savingCourt": {
+    "description": "savingCourt text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "verfiyToAddCourt": "Verify now to add court!",
+  "@verfiyToAddCourt": {
+    "description": "verfiyToAddCourt text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addCourtToManage": "Add your court to manage",
+  "@addCourtToManage": {
+    "description": "addCourtToManage text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "descAppText": "application for find futsal court and opponents",
+  "@descAppText": {
+    "description": "desc app text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "withText": "with",
+  "@withText": {
+    "description": "with text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appVersionText": "App Version",
+  "@appVersionText": {
+    "description": "app version text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "account": "Account",
+  "@account": {
+    "description": "account text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "myInfoText": "My Information",
+  "@myInfoText": {
+    "description": "my info text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "myCourt": "My Court",
+  "@myCourt": {
+    "description": "myCourt text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "aboutUsText": "About Us",
+  "@aboutUsText": {
+    "description": "about us text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutSuccessText": "Logout successfully!",
+  "@logoutSuccessText": {
+    "description": "logout success text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutText": "Logout",
+  "@logoutText": {
+    "description": "logout text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "profileText": "Profile",
+  "@profileText": {
+    "description": "profile text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "phoneNumberEmptyWarningText": "Phone number can't be empty!",
+  "@phoneNumberEmptyWarningText": {
+    "description": "phoneNumber empty warning text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressEmptyWarningText": "Address can't be empty!",
+  "@addressEmptyWarningText": {
+    "description": "address empty warning text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinedText": "Joined",
+  "@joinedText": {
+    "description": "joined text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dataSavedText": "Data saved!",
+  "@dataSavedText": {
+    "description": "data saved text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "savingChangesText": "Saving changes..",
+  "@savingChangesText": {
+    "description": "saving changes text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "genderText": "Gender",
+  "@genderText": {
+    "description": "gender text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notification": "Notification",
+  "@notification": {
+    "description": "notification text on bottom nav bar",
     "type": "text",
     "placeholders": {}
   }

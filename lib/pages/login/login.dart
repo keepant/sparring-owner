@@ -1,7 +1,5 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sparring_owner/components/bezier.dart';
@@ -92,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
             ),
             Text(
-              "Back",
+              I18n.of(context).back,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -149,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
         FocusScope.of(context).unfocus();
         if (_formKey.currentState.validate()) {
           Flushbar(
-            message: "Loading...",
+            message: I18n.of(context).loading,
             showProgressIndicator: true,
             margin: EdgeInsets.all(8),
             borderRadius: 8,
@@ -195,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
 
             FocusScope.of(context).unfocus();
             Flushbar(
-              message: "Login successfully!",
+              message: I18n.of(context).loginSuccessText,
               margin: EdgeInsets.all(8),
               borderRadius: 8,
               duration: Duration(seconds: 3),
@@ -228,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: Text(
-          "Login",
+          I18n.of(context).login,
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
@@ -251,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          Text("or"),
+          Text(I18n.of(context).orText),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -268,149 +266,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget facebookButton() {
-    return Container(
-      height: 50,
-      margin: EdgeInsets.symmetric(vertical: 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: InkWell(
-        onTap: () {
-          print("Login with facebook");
-        },
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xff1959a9),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    topLeft: Radius.circular(5),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  FontAwesomeIcons.facebookF,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 5,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xff2872ba),
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  "Login with Facebook",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget googleButton() {
-    return InkWell(
-      onTap: () async {
-        print('tap google login button');
-
-        final auth = new Auth();
-        String _token;
-
-        _token = await auth.signInWithGoogle();
-        print("token: " + _token);
-        await prefs.setToken(_token);
-
-        String userId = await auth.getUid();
-        await prefs.setUserId(userId);
-
-        String displayName = await auth.getName();
-        await prefs.setUserName(displayName);
-
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return Root();
-            },
-          ),
-        );
-
-        Flushbar(
-          message: "Login successfully!",
-          margin: EdgeInsets.all(8),
-          borderRadius: 8,
-          duration: Duration(seconds: 3),
-        )..show(context);
-      },
-      child: Container(
-        height: 50,
-        margin: EdgeInsets.symmetric(vertical: 1),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Hexcolor('#4285F4')),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    topLeft: Radius.circular(5),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Image(
-                  image: AssetImage("assets/icon/google_logo.png"),
-                  height: 25.0,
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 5,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Hexcolor('#4285F4'),
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  "Login with Google",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _createAccountLabel() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
@@ -420,7 +275,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Don\'t have an account? ",
+            I18n.of(context).questionAccountText,
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
           SizedBox(
@@ -432,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                   MaterialPageRoute(builder: (context) => RegisterPage()));
             },
             child: Text(
-              "Register now",
+              I18n.of(context).registerText,
               style: TextStyle(
                 color: Color(0xfff79c4f),
                 fontSize: 13,
@@ -466,17 +321,17 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: <Widget>[
           _entryField(
-            "Email",
+            I18n.of(context).emailText,
             _emailControl,
             hint: "john@mayer.me",
             keyboardType: TextInputType.emailAddress,
-            warningText: "Email can\'t be empty!",
+            warningText: I18n.of(context).emailEmptyWarningText,
           ),
           _entryField(
-            "Password",
+            I18n.of(context).passwordText,
             _passwdControl,
             isPassword: _isHidePassword,
-            warningText: "Password can\'t be empty!",
+            warningText: I18n.of(context).passwordEmptyWarningText,
             suffixIcon: GestureDetector(
               onTap: () {
                 _togglePasswordVisibility();

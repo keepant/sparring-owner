@@ -7,8 +7,10 @@ import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/graphql/bookings.dart';
 import 'package:intl/intl.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/models/booking_payment_status.dart';
 import 'package:sparring_owner/api/client.dart' as midtransClient;
+import 'package:sparring_owner/utils/utils.dart';
 
 class BookingDetails extends StatelessWidget {
   final int id;
@@ -84,7 +86,7 @@ class BookingDetails extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text("Booking details"),
+              title: Text(I18n.of(context).bookingDetail),
             ),
             body: ListView.builder(
               shrinkWrap: true,
@@ -183,17 +185,7 @@ class BookingDetails extends StatelessWidget {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
-                                child: Text(new DateFormat.Hm()
-                                        .format(DateTime.parse(booking['date'] +
-                                            ' ' +
-                                            booking['time_start']))
-                                        .toString() +
-                                    " - " +
-                                    new DateFormat.Hm()
-                                        .format(DateTime.parse(booking['date'] +
-                                            ' ' +
-                                            booking['time_end']))
-                                        .toString()),
+                                child: Text("${formatTime(booking['time_start'])} - ${formatTime(booking['time_end'])}"),
                               ),
                             ],
                           )
@@ -207,7 +199,7 @@ class BookingDetails extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 4.0),
                       child: Text(
-                        'Booking Info',
+                        I18n.of(context).bookingInfo,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0),
                       ),
@@ -219,7 +211,7 @@ class BookingDetails extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             child: Text(
-                              "Name",
+                             I18n.of(context).name,
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                           ),
@@ -241,7 +233,7 @@ class BookingDetails extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             child: Text(
-                              "Phone number",
+                              I18n.of(context).phoneNumber,
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                           ),
@@ -263,7 +255,7 @@ class BookingDetails extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             child: Text(
-                              "Address",
+                              I18n.of(context).address,
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                           ),
@@ -282,7 +274,7 @@ class BookingDetails extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 4.0),
                       child: Text(
-                        'Payment Details',
+                        I18n.of(context).paymentDetails,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0),
                       ),
@@ -345,7 +337,7 @@ class BookingDetails extends StatelessWidget {
                                   children: <Widget>[
                                     Container(
                                       child: Text(
-                                        "Payment Method",
+                                        I18n.of(context).paymentMethod,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600),
                                       ),
@@ -370,15 +362,14 @@ class BookingDetails extends StatelessWidget {
                                   children: <Widget>[
                                     Container(
                                       child: Text(
-                                        "Total price",
+                                        I18n.of(context).totalPrice,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600),
                                       ),
                                     ),
                                     Container(
                                       child: Text(
-                                        "Rp " +
-                                            booking['total_price'].toString(),
+                                        formatCurrency(booking['total_price']),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600),
                                       ),

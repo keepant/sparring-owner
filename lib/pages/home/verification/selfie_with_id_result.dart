@@ -6,6 +6,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/graphql/verify.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/services/prefs.dart';
 
 class SelfieWithIDResult extends StatefulWidget {
@@ -76,7 +77,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                           },
                         ),
                         Text(
-                          "Step 3/3",
+                          "${I18n.of(context).step} 3/3",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 16.0,
@@ -91,7 +92,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                   Container(
                     margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
-                      "Result your selfie with ID",
+                      I18n.of(context).resutlSelfieWithID,
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold),
                     ),
@@ -132,7 +133,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                               borderRadius: BorderRadius.circular(180.0),
                             ),
                             child: Text(
-                              "Finish",
+                              I18n.of(context).finish,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 16.0,
@@ -182,7 +183,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                         Padding(
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Text(
-                            "Congratulations",
+                            I18n.of(context).congratulation,
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 16.0,
@@ -193,7 +194,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                         Padding(
                           padding: const EdgeInsets.only(top: 15.0),
                           child: Text(
-                            "Now you are registered",
+                            I18n.of(context).nowRegistered,
                             style: TextStyle(
                               fontSize: 22.0,
                               fontWeight: FontWeight.bold,
@@ -205,7 +206,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                               const EdgeInsets.only(top: 20.0, bottom: 40.0),
                           child: Center(
                             child: Text(
-                              "Please wait our admin to verify your information. It'\s takes 1-3 work days.",
+                              I18n.of(context).pleaseWait,
                               style: TextStyle(fontSize: 16.0),
                               textAlign: TextAlign.center,
                             ),
@@ -244,7 +245,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                                     borderRadius: BorderRadius.circular(180.0),
                                   ),
                                   child: Text(
-                                    "Ok, I got it",
+                                    I18n.of(context).okGotIt,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 16.0,
@@ -271,7 +272,7 @@ class _SelfieWithIDResultState extends State<SelfieWithIDResult> {
                                         .putFile(File(widget.imagePath));
                                   });
                                   Flushbar(
-                                    message: "Finishing...",
+                                    message: I18n.of(context).finishing,
                                     showProgressIndicator: true,
                                     margin: EdgeInsets.all(8),
                                     borderRadius: 8,

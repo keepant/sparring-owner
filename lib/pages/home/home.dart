@@ -11,6 +11,7 @@ import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/components/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sparring_owner/graphql/owner.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/home/verification.dart';
 import 'package:sparring_owner/pages/more/court/add_court.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
@@ -264,7 +265,7 @@ class _HomeState extends State<Home> {
                                     //print("income: " + income.toString());
 
                                     return CardContainer(
-                                      caption: "Total income",
+                                      caption: I18n.of(context).totalIncome,
                                       label: formatCurrency(income),
                                     );
                                   },
@@ -311,7 +312,7 @@ class _HomeState extends State<Home> {
                                   return CustomIconButton(
                                     circleColor: IconColors.send,
                                     txt: totalCourt.toString(),
-                                    buttonTitle: "Court",
+                                    buttonTitle: I18n.of(context).court,
                                     onTap: () async {
                                       await prefs.setDocsId(owner['docs_id']);
                                       owner['account_status'] != "verified"
@@ -372,7 +373,7 @@ class _HomeState extends State<Home> {
                                   return CustomIconButton(
                                     circleColor: IconColors.passbook,
                                     txt: status.toString(),
-                                    buttonTitle: "Upcoming",
+                                    buttonTitle: I18n.of(context).upcomingText,
                                     onTap: () {},
                                   );
                                 },
@@ -412,7 +413,7 @@ class _HomeState extends State<Home> {
                                   return CustomIconButton(
                                     circleColor: IconColors.more,
                                     txt: status.toString(),
-                                    buttonTitle: "Completed",
+                                    buttonTitle: I18n.of(context).completedText,
                                     onTap: () {},
                                   );
                                 },
@@ -464,7 +465,7 @@ class _HomeState extends State<Home> {
                                   return CustomIconButton(
                                     circleColor: IconColors.transfer,
                                     txt: totalBookings.toString(),
-                                    buttonTitle: "Bookings",
+                                    buttonTitle: I18n.of(context).bookings,
                                     onTap: () {},
                                   );
                                 },
@@ -480,13 +481,13 @@ class _HomeState extends State<Home> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    "Your court",
+                                    I18n.of(context).yourCourt,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   ),
                                   CustomRoundedButton(
-                                    buttonText: "More",
+                                    buttonText: I18n.of(context).more,
                                     color: Colors.blue,
                                     onTap: () async {
                                       await prefs.setDocsId(owner['docs_id']);
@@ -692,8 +693,8 @@ class EmptyCourt extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: ListTile(
-        title: Text("You don\'t have any court yet"),
-        subtitle: Text("Please add to see your court here"),
+        title: Text(I18n.of(context).dontHaveCourtText),
+        subtitle: Text(I18n.of(context).pleaseAddCourt),
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: IconButton(
@@ -733,7 +734,7 @@ class CustomRoundedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Text(
-            "More",
+            I18n.of(context).more,
             style: TextStyle(color: color),
           ),
         ),

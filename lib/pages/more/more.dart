@@ -9,6 +9,7 @@ import 'package:sparring_owner/api/api.dart';
 import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/components/text_style.dart';
 import 'package:sparring_owner/graphql/owner.dart';
+import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/more/about.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
 import 'package:sparring_owner/pages/more/profile.dart';
@@ -98,7 +99,7 @@ class _MoreState extends State<More> {
                   backgroundColor: Colors.white,
                   appBar: AppBar(
                     title: Text(
-                      "Account",
+                      I18n.of(context).account,
                       style: TextStyle(
                         color: Colors.black54,
                         fontWeight: FontWeight.bold,
@@ -167,7 +168,7 @@ class _MoreState extends State<More> {
                         ),
                         _profileItem(
                           icon: FontAwesomeIcons.userAlt,
-                          text: "My Informations",
+                          text: I18n.of(context).myInfoText,
                           onTap: () {
                             print('my info');
                             pushNewScreen(
@@ -186,7 +187,7 @@ class _MoreState extends State<More> {
                         ),
                         _profileItem(
                             icon: FontAwesomeIcons.futbol,
-                            text: "My Court",
+                            text: I18n.of(context).myCourt,
                             onTap: () {
                               pushNewScreen(
                                 context,
@@ -216,7 +217,7 @@ class _MoreState extends State<More> {
                         ),
                         _profileItem(
                           icon: FontAwesomeIcons.signOutAlt,
-                          text: "Logout",
+                          text: I18n.of(context).logoutText,
                           onTap: () async {
                             final auth = new Auth();
                             await auth.signOut();
@@ -233,7 +234,7 @@ class _MoreState extends State<More> {
                             OneSignal.shared.removeExternalUserId();
 
                             Flushbar(
-                              message: "Logout successfully!",
+                              message: I18n.of(context).logoutSuccessText,
                               margin: EdgeInsets.all(8),
                               borderRadius: 8,
                               duration: Duration(seconds: 4),
