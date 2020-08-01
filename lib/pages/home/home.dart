@@ -1,4 +1,5 @@
 import 'package:firebase_image/firebase_image.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -15,6 +16,8 @@ import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/home/verification.dart';
 import 'package:sparring_owner/pages/more/court/add_court.dart';
 import 'package:sparring_owner/pages/more/court/court.dart';
+import 'package:sparring_owner/services/auth.dart';
+import 'package:sparring_owner/services/auth_check.dart';
 import 'package:sparring_owner/services/prefs.dart';
 import 'package:sparring_owner/utils/env.dart';
 import 'package:sparring_owner/utils/utils.dart';
@@ -82,6 +85,19 @@ class _HomeState extends State<Home> {
     return "Not verified";
   }
 
+  _signOut() async {
+    await auth.signOut();
+
+    await prefs.clearToken();
+
+    pushNewScreen(
+      context,
+      screen: AuthCheck(),
+      platformSpecific: false,
+      withNavBar: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return _userId == null
@@ -99,6 +115,16 @@ class _HomeState extends State<Home> {
                   {FetchMore fetchMore, VoidCallback refetch}) {
                 if (result.loading) {
                   return Loading();
+                }
+
+                if (result.exception.toString().contains(
+                    'ClientException: Unhandled Failure Invalid argument(s)')) {
+                  return Flushbar(
+                    message: "Your session is over. Please login again.",
+                    margin: EdgeInsets.all(8),
+                    borderRadius: 8,
+                    duration: Duration(seconds: 2),
+                  )..show(context);
                 }
 
                 // if (result.exception
