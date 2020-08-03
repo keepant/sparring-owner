@@ -1,4 +1,5 @@
 import 'package:empty_widget/empty_widget.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -10,6 +11,8 @@ import 'package:sparring_owner/components/loading.dart';
 import 'package:sparring_owner/graphql/bookings.dart';
 import 'package:sparring_owner/i18n.dart';
 import 'package:sparring_owner/pages/bookings/booking_details.dart';
+import 'package:sparring_owner/services/auth.dart';
+import 'package:sparring_owner/services/prefs.dart';
 import 'package:sparring_owner/utils/utils.dart';
 
 class UpcomingBookings extends StatefulWidget {
@@ -34,6 +37,14 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
     _getUserId();
   }
 
+  _signOut() async {
+    await auth.signOut();
+
+    await prefs.clearToken();
+
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
@@ -48,6 +59,18 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
             }),
         builder: (QueryResult result,
             {FetchMore fetchMore, VoidCallback refetch}) {
+          if (result.exception.toString().contains('Could not verify JWT') ||
+              result.exception.toString().contains(
+                  'ClientException: Unhandled Failure Invalid argument(s)')) {
+            _signOut();
+            return Flushbar(
+              message: "Your session is over. Please login again.",
+              margin: EdgeInsets.all(8),
+              borderRadius: 8,
+              duration: Duration(seconds: 2),
+            )..show(context);
+          }
+          
           if (result.hasException) {
             return Center(
               child: Text(result.exception.toString()),

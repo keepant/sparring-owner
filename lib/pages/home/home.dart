@@ -90,12 +90,7 @@ class _HomeState extends State<Home> {
 
     await prefs.clearToken();
 
-    pushNewScreen(
-      context,
-      screen: AuthCheck(),
-      platformSpecific: false,
-      withNavBar: false,
-    );
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override
@@ -117,26 +112,14 @@ class _HomeState extends State<Home> {
                   return Loading();
                 }
 
-                if (result.exception.toString().contains(
-                    'ClientException: Unhandled Failure Invalid argument(s)')) {
-                  return Flushbar(
-                    message: "Your session is over. Please login again.",
-                    margin: EdgeInsets.all(8),
-                    borderRadius: 8,
-                    duration: Duration(seconds: 2),
-                  )..show(context);
+                if (result.exception
+                        .toString()
+                        .contains('Could not verify JWT') ||
+                    result.exception.toString().contains(
+                        'ClientException: Unhandled Failure Invalid argument(s)')) {
+                  _signOut();
+                  return Loading();
                 }
-
-                // if (result.exception
-                //     .toString()
-                //     .contains('Could not verify JWT')) {
-                //   return _signOut();
-                // }
-
-                // if (result.exception.toString().contains(
-                //     'ClientException: Unhandled Failure Invalid argument(s)')) {
-                //   return _signOut();
-                // }
 
                 if (result.hasException) {
                   return Center(
