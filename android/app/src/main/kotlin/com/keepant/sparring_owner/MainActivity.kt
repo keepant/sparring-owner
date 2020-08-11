@@ -1,4 +1,4 @@
-package com.example.sparring_owner
+package com.keepant.sparring_owner
 
 import android.os.Bundle
 import io.flutter.app.FlutterActivity
